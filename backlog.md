@@ -11,3 +11,5 @@
 - Set Java 17
 - JavaFX or Java Swing
 - UML 
+- Roadmaps avec deadline
+- Module 1: 12 dec (mode jeu normal + mode game)
