@@ -1,9 +1,14 @@
 package model;
 
-public class MultiplayerMode {
+public final class MultiplayerMode extends Game {
 
-    public MultiplayerMode() {
+    public MultiplayerMode(String pathToData) {
+        super(pathToData);
+    }
 
+    @Override
+    public void init() {
+        // TODO
     }
 
 }
