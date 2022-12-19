@@ -10,7 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class WordQueue{
+public class WordQueue {
+
     private Queue<Word> queue = new LinkedList<>();
     private Iterator<String> dataSource;
     private int MAX_SIZE = 15;
@@ -50,6 +51,10 @@ public class WordQueue{
         return false;
     }
 
+    // Copie necessaire ici ?
+    public Queue<Word> getQueue() {
+        return new LinkedList<>(queue);
+    }
     
     /** 
      * @return String

@@ -18,6 +18,8 @@ public class WordView extends JLabel {
         this.word = word;
         // Put the word in black
         setColoredText(word.getContent());
+        // Obligatoire pour changer le background color
+        setOpaque(true);
     }
 
     /** 
@@ -82,6 +84,11 @@ public class WordView extends JLabel {
 
     public void pushContent(String pushContent) {
         word.pushContent(pushContent);
+    }
+
+    public void validate() {
+        word.validate();
+        setColoredText(word.getPushedContent());
     }
 
 }

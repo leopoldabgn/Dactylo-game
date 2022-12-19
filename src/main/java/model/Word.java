@@ -3,6 +3,7 @@ package model;
 public class Word {
 
     private String content, pushContent;
+    private boolean validate;
 
     public Word(String content) {
         this.content = content;
@@ -71,6 +72,14 @@ public class Word {
      */
     public void pushContent(String pushContent) {
         this.pushContent = pushContent;
+    }
+
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void validate() {
+        this.validate = true;
     }
 
 }
