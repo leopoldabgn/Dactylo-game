@@ -15,7 +15,8 @@ public class WordQueue {
     private Queue<Word> queue = new LinkedList<>();
     private Iterator<String> dataSource;
     private int MAX_SIZE = 15;
-
+    
+    
     public WordQueue(String dataPath) {
         this.dataSource = (Iterator<String>) createIterable(dataPath);
     }
@@ -56,7 +57,7 @@ public class WordQueue {
         return new LinkedList<>(queue);
     }
     
-    /** 
+    /** Overwrite toStrig method
      * @return String
      */
     public String toString() {
