@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public final class NormalGame extends Game {
 
-  public NormalGame(String pathToData, ArrayList<Player> players) {
-    super(pathToData, players);
+  public NormalGame(String pathToData, ArrayList<Player> players, GameType type) {
+    super(pathToData, players, type);
     //TODO Auto-generated constructor stub
   }
 

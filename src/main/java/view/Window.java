@@ -12,6 +12,8 @@ import model.Game;
 import model.ChallengeGame;
 import model.MultiplayerGame;
 import model.NormalGame;
+import model.Game.GameType;
+
 import java.awt.*;
 
 public class Window extends JFrame {
@@ -41,7 +43,8 @@ public class Window extends JFrame {
 
 	public void setNormalMode() {
 		this.getContentPane().removeAll();
-		gameView = new GameView(this, new NormalGame("src/main/resources/sample.txt", null));
+		// [TODO]: Not suppose to do this, use instead Game factory
+		gameView = new GameView(this, new NormalGame("src/main/resources/sample.txt", null, GameType.NORMAL));
 		this.getContentPane().add(gameView);
 		setNormalModeKeyListener();
 		revalidate();
