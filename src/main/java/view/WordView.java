@@ -16,10 +16,12 @@ public class WordView extends JLabel {
     public WordView(Word word) {
         super(word.getContent());
         this.word = word;
+        
+        setFont(Window.getNewFont(14));
         // Put the word in black
         setColoredText(word.getContent());
         // Obligatoire pour changer le background color
-        setOpaque(true);
+        // setOpaque(true); // (A remettre si besoin. Pour le moment non.)
     }
 
     /** 

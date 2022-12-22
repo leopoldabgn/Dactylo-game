@@ -1,20 +1,28 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
-import model.Game;
 import model.ChallengeGame;
+import model.Game;
+import model.Game.GameType;
+import model.GameFactory;
 import model.MultiplayerGame;
 import model.NormalGame;
-import model.Game.GameType;
-
-import java.awt.*;
+import model.Player;
 
 public class Window extends JFrame {
 	// Palette reference: https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
@@ -30,21 +38,48 @@ public class Window extends JFrame {
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// On ajoute une marge sur les bordures du container principal
+		// On aura donc la marge sur toutes les pages
+		int padding = 10;
+		((JPanel)getContentPane()).setBorder(new EmptyBorder(padding, padding, padding, padding));
+
+		// @paris, Il faut voir si on laisse ça ? Important car sinon on a des bords blancs sur le coté
+		getContentPane().setBackground(HomeView.backgroundColor);
 
 		// wordView = new WordView(new Word("Bonjour")); // TEMPORARY
-		getContentPane().add(new HomeView()); // TEMPORARY
+		
+		//setHomeView();
 
-		// setNormalMode();
+		setNormalMode();
 
 		// setKeyListener();
 
 		this.setVisible(true);
 	}
 
+	public void setHomeView() {
+		this.getContentPane().removeAll();
+		// On remet à zero gameView et le keyListener
+		gameView = null;
+		this.addKeyListener(null);
+
+		this.getContentPane().add(new HomeView());
+		revalidate();
+		repaint();
+	}
+
 	public void setNormalMode() {
 		this.getContentPane().removeAll();
 		// [TODO]: Not suppose to do this, use instead Game factory
-		gameView = new GameView(this, new NormalGame("src/main/resources/sample.txt", null, GameType.NORMAL));
+
+		// TEMPORARY: Pour le moment je mets un fake player
+		/////////////
+		var players = new ArrayList<>(Arrays.asList(new Player("leopold", 0)));
+		var game = GameFactory.getGame(GameType.NORMAL, "src/main/resources/sample.txt", players);
+		/////////////
+
+		gameView = new GameView(this, game);
 		this.getContentPane().add(gameView);
 		setNormalModeKeyListener();
 		revalidate();
@@ -118,9 +153,15 @@ public class Window extends JFrame {
 		} catch (Exception e) {
 				Font customFont = new Font(Font.SERIF, Font.PLAIN,  10);
 				return customFont;
-		}
-	 
-}
+		} 
+	}
+
+	public static JLabel getJLabel(String text, int size, Color color) {
+		JLabel label = new JLabel(text);
+		label.setFont(getNewFont(size));
+		label.setForeground(color);
+		return label;
+	}
 
 } 
   

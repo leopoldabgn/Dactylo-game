@@ -8,7 +8,8 @@ public class HomeView extends JPanel{
   // Panel layout
   private BorderLayout viewLayout = new BorderLayout();
   // Panel background color: for reference see https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
-  private Color backgroundColor = new Color(0, 95, 115);
+  public static final Color backgroundColor = new Color(0, 95, 115);
+  public static final Color backgroundColor2 = new Color(235, 73, 45);
   // Form Components
   private JTextField playerNameInput;
   private JRadioButton radioButtonNormal;
@@ -24,7 +25,7 @@ public class HomeView extends JPanel{
   public HomeView() {
     // Update Layout and Background color
     this.setLayout(viewLayout);
-    this.setBackground(this.backgroundColor);
+    this.setBackground(HomeView.backgroundColor);
     // Add components to Panel
     this.add(getTitle("Dactylo Game", 30), BorderLayout.PAGE_START);
     this.add(getLoginBox(), BorderLayout.CENTER);
@@ -38,7 +39,7 @@ public class HomeView extends JPanel{
    * @param fontSize
    * @return JLabel
    */
-  private JLabel getTitle(String title, int fontSize) {
+  public static JLabel getTitle(String title, int fontSize) {
     JLabel gameTitle = new JLabel(title);
     gameTitle.setFont(Window.getNewFont(fontSize));
     gameTitle.setForeground(new Color(0, 0, 0));
@@ -54,7 +55,7 @@ public class HomeView extends JPanel{
   private JPanel getLoginBox() { 
     JPanel loginBox = new JPanel();
     loginBox.setLayout(new BoxLayout(loginBox, BoxLayout.Y_AXIS));
-    loginBox.setBackground(this.backgroundColor);
+    loginBox.setBackground(HomeView.backgroundColor);
     // Add components to loginBox Panel
     loginBox.add(getPlayerInputAux("Player name:", 20, "Rick"));
     loginBox.add(getGameModeAux());
@@ -70,7 +71,7 @@ public class HomeView extends JPanel{
    * @param fontSize
    * @return JLabel
    */
-  private JLabel getAuthors(String content, int fontSize) {
+  public static JLabel getAuthors(String content, int fontSize) {
     JLabel authors = new JLabel(content);
     authors.setFont(Window.getNewFont(fontSize));
     authors.setHorizontalAlignment(JLabel.RIGHT);
@@ -88,7 +89,7 @@ public class HomeView extends JPanel{
    */
   private JPanel getPlayButtonAux(String content, int fontSize) {
     JPanel panelWrapper = new JPanel();
-    panelWrapper.setBackground(this.backgroundColor);
+    panelWrapper.setBackground(HomeView.backgroundColor);
     JButton playButton = new JButton(content);
     playButton.setFont(Window.getNewFont(fontSize));
     playButton.setForeground(new Color(255, 255, 255));
@@ -123,7 +124,7 @@ public class HomeView extends JPanel{
     buttonGroup.add(getRadioButton(this.radioButtonMP, 15, false));
     buttonGroup.add(getRadioButton(this.radioButtonChallenge, 15, false));
     
-    panelWrapper.setBackground(this.backgroundColor);
+    panelWrapper.setBackground(HomeView.backgroundColor);
     panelWrapper.add(gameModeLabel);
     panelWrapper.add(this.radioButtonNormal);
     panelWrapper.add(this.radioButtonChallenge);
@@ -153,7 +154,7 @@ public class HomeView extends JPanel{
     this.playerNameInput.setHorizontalAlignment(JTextField.CENTER);
     this.playerNameInput.setText(placeholder);
     
-    panelWrapper.setBackground(this.backgroundColor);
+    panelWrapper.setBackground(HomeView.backgroundColor);
     panelWrapper.add(playerNameLabel);
     panelWrapper.add(playerNameInput);
     // panelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
