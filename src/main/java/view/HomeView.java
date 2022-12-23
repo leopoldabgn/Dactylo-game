@@ -4,7 +4,7 @@ import javax.swing.*;
 import controllers.HomeController;
 import java.awt.*;
 
-public class HomeView extends JPanel{
+public final class HomeView extends JPanel{
   // Panel layout
   private BorderLayout viewLayout = new BorderLayout();
   // Panel background color: for reference see https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
@@ -54,10 +54,12 @@ public class HomeView extends JPanel{
    */
   private JPanel getLoginBox() { 
     JPanel loginBox = new JPanel();
-    loginBox.setLayout(new BoxLayout(loginBox, BoxLayout.Y_AXIS));
+    loginBox.setLayout(new GridLayout(3, 1));
     loginBox.setBackground(HomeView.backgroundColor);
     // Add components to loginBox Panel
-    loginBox.add(getPlayerInputAux("Player name:", 20, "Rick"));
+    //Window.getPanel(0, new GridBagLayout(), )
+    JPanel playerInput = getPlayerInputAux("Player name:", 20, "Rick");
+    loginBox.add(Window.getPanel(0, new GridBagLayout(), playerInput));
     loginBox.add(getGameModeAux());
     loginBox.add(getPlayButtonAux("Play", 20));
     
@@ -109,6 +111,7 @@ public class HomeView extends JPanel{
    */
   private JPanel getGameModeAux() {
     JPanel panelWrapper = new JPanel();
+    panelWrapper.setOpaque(false);
     JLabel gameModeLabel = new JLabel("Game Mode: ");
     
     gameModeLabel.setFont(Window.getNewFont(20));
@@ -124,12 +127,12 @@ public class HomeView extends JPanel{
     buttonGroup.add(getRadioButton(this.radioButtonMP, 15, false));
     buttonGroup.add(getRadioButton(this.radioButtonChallenge, 15, false));
     
-    panelWrapper.setBackground(HomeView.backgroundColor);
     panelWrapper.add(gameModeLabel);
     panelWrapper.add(this.radioButtonNormal);
     panelWrapper.add(this.radioButtonChallenge);
     panelWrapper.add(this.radioButtonMP);
-    // panelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
+    //panelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
+
     return panelWrapper;
   }
   

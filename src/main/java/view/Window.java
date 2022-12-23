@@ -16,6 +16,7 @@ import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import model.ChallengeGame;
@@ -26,7 +27,7 @@ import model.MultiplayerGame;
 import model.NormalGame;
 import model.Player;
 
-public class Window extends JFrame {
+public final class Window extends JFrame {
 	// Palette reference: https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
 
 	private WordView wordView; // TEMPORARY
@@ -73,7 +74,6 @@ public class Window extends JFrame {
 
 	public void setNormalMode() {
 		this.getContentPane().removeAll();
-		// [TODO]: Not suppose to do this, use instead Game factory
 
 		// TEMPORARY: Pour le moment je mets un fake player
 		/////////////
@@ -95,15 +95,19 @@ public class Window extends JFrame {
 				super.keyPressed(e);
 				if(!isMode("NORMAL"))
 					return;
+				// On lance le timer si besoin
+				if(!gameView.isRunning())
+					gameView.startTimer();
+
 				WordView actualWord = gameView.getActualWord();
 				switch(e.getKeyChar()) {
 					case KeyEvent.VK_SPACE:
 						// On valide le mot actuel.
 						// On passe au suivant et on modifie les stats
 						gameView.nextWord();
-						return;
+						break;
 					case KeyEvent.VK_BACK_SPACE:
-						wordView.removeLetter();
+						actualWord.removeLetter();
 						break;
 					default:
 						if(Character.isLetter(e.getKeyChar())) {
@@ -111,9 +115,14 @@ public class Window extends JFrame {
 						}
 						break;
 				}
-				// I try to revalidate, repaint actualWord, gameView but nothing works...
-				revalidate();
-				repaint();
+				
+				// Pour une raison obscure, on doit rafraichir deux fois l'affichage
+				// pour que le texte se mette à jour...
+				for(int i=0;i<2;i++) {
+					gameView.getTextArea().revalidate();
+					revalidate();
+					repaint();
+				}
 			}
 		});
 	}
@@ -168,6 +177,7 @@ public class Window extends JFrame {
 	public static JPanel getPanel(int border, LayoutManager layout, Component... panelsToAdd) {
 		JPanel pan = new JPanel();
 		pan.setOpaque(false);
+		pan.setLayout(layout);
 		pan.setBorder(new EmptyBorder(border, border, border, border));
 
 		for(Component p : panelsToAdd)

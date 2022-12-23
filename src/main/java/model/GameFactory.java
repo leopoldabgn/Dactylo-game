@@ -14,11 +14,11 @@ public class GameFactory {
   public static Game getGame(GameType type, String data, ArrayList<Player> players) {
     switch (type) {
       case MP:
-        return new MultiplayerGame(data, players, GameType.MP);
+        return new MultiplayerGame(data, players);
       case CHALLENGE:
-        return new ChallengeGame(data, players, GameType.CHALLENGE);
+        return new ChallengeGame(data, players);
       default:
-        return new NormalGame(data, players, GameType.NORMAL);
+        return new NormalGame(data, players);
     }
   }
 }

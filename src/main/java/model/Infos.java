@@ -1,19 +1,19 @@
 package model;
 
-public final class Stats implements Cloneable {
+public final class Infos implements Cloneable {
     
     private int nbWords; // Le nombre de mots tapés
     private int time; // Le temps en secondes
 
-    private Stats() {}
+    private Infos() {}
 
-    private Stats(int nbWords, int time) {
+    private Infos(int nbWords, int time) {
         this.nbWords = nbWords;
         this.time = time;
     }
 
-    public static Stats empty() {
-        return new Stats();
+    public static Infos empty() {
+        return new Infos();
     }
 
     public void setNbWords(int nbWords) {
@@ -36,8 +36,8 @@ public final class Stats implements Cloneable {
         return time;
     }
 
-    public Stats clone() {
-        return new Stats(nbWords, time);
+    public Infos clone() {
+        return new Infos(nbWords, time);
     }
 
 }

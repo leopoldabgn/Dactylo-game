@@ -7,25 +7,28 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import model.Game;
 import model.Word;
 import model.WordQueue;
 
-public final class GameView extends JPanel {
+public final class GameView extends JPanel implements ActionListener {
 
     private Window win;
     private Game game;
-
+    private Timer timer;
     // north panel
     private JLabel gameMode, playerName;
-    private StatsBox statsBox;
+    private InfosBox infosBox;
 
     private GameTextArea textArea;
 
@@ -33,7 +36,8 @@ public final class GameView extends JPanel {
         this.win = win;
         this.game = game;
         this.textArea = new GameTextArea();
-        this.statsBox = new StatsBox(game.getStats());
+        this.infosBox = new InfosBox(game.getInfos());
+        this.timer = new Timer(1_000, this);
         
         JPanel textAreaBox = new JPanel();
         textAreaBox.setLayout(new GridLayout());
@@ -93,7 +97,7 @@ public final class GameView extends JPanel {
                 wordViewQueue.add(w);
                 this.add(w);
             });
-            actualWord = wordViewQueue.peek();
+            actualWord = nextWord();
             revalidate();
             repaint();
         }
@@ -154,7 +158,7 @@ public final class GameView extends JPanel {
         south.setOpaque(false);
         south.setLayout(new BorderLayout());
 
-        south.add(statsBox, BorderLayout.WEST);
+        south.add(infosBox, BorderLayout.WEST);
         south.add(HomeView.getAuthors("@parismollo & @leopoldabgn", 15), BorderLayout.EAST);
 
         return south;
@@ -174,6 +178,34 @@ public final class GameView extends JPanel {
 
     public WordView getActualWord() {
         return textArea.getActualWord();
+    }
+
+    public boolean isRunning() {
+        return timer.isRunning();
+    }
+
+    public void startTimer() {
+        timer.start();
+        // On enlève directement 1s 
+        infosBox.removeTime(1);
+    }
+
+    public void stopTimer() {
+        timer.stop();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        infosBox.removeTime(1);
+        if(game.getInfos().getTime() == 0) {
+            timer.stop();
+            // TODO: Start StatsView
+            // win.setStatsView(...);
+        }
+    }
+
+    public JPanel getTextArea() {
+        return textArea;
     }
 
 }

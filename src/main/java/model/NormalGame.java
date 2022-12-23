@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public final class NormalGame extends Game {
 
-  public NormalGame(String pathToData, ArrayList<Player> players, GameType type) {
-    super(pathToData, players, type);
+  public NormalGame(String pathToData, ArrayList<Player> players) {
+    super(pathToData, players, GameType.NORMAL);
     init();
   }
 
   @Override
   public void init() {
-    Stats stats = getStats();
-    stats.setTime(60);
+    Infos infos = getInfos();
+    infos.setTime(60);
   }
 
 }
