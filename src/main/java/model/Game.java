@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public abstract sealed class Game permits NormalGame, ChallengeGame, MultiplayerGame {
   private final WordQueue wordQueue;
   private Word actualWord;
+  private Stats stats;
   private ArrayList<Player> players;
   private GameType type;
   private static int gameCounter = 0;
@@ -32,6 +33,7 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     this.wordQueue = new WordQueue(pathToData);
     deepCopy(players);
     actualWord = wordQueue.getQueue().peek();
+    this.stats = Stats.empty();
     this.type = type;
     this.gameId = Game.gameCounter++;
   }
@@ -90,7 +92,6 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     return players;
   }
 
-
   /**
    * @return gameId
    */
@@ -98,12 +99,15 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     return gameId;
   }
 
-  
   /** 
    * @return String
    */
   public String toString() {
     return String.format("\u001b[32mGame id:\u001b[0m %d - \u001b[34mGame Mode:\u001b[0m %s - \u001b[31mPlayers:\u001b[0m %s",this.getGameId(),  this.getType(), this.getPlayers());
+  }
+
+  public Stats getStats() {
+    return stats;
   }
 
 }

@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.RenderingHints;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -24,23 +25,28 @@ public final class GameView extends JPanel {
 
     // north panel
     private JLabel gameMode, playerName;
+    private StatsBox statsBox;
 
     private GameTextArea textArea;
-
-
 
     public GameView(Window win, Game game) {
         this.win = win;
         this.game = game;
         this.textArea = new GameTextArea();
-
-        gameMode = Window.getJLabel("Game mode: " + game.getType(), 18, Color.WHITE);
-        playerName = Window.getJLabel("Player: " + game.getPlayers().get(0).getName(), 18, Color.WHITE);
+        this.statsBox = new StatsBox(game.getStats());
         
+        JPanel textAreaBox = new JPanel();
+        textAreaBox.setLayout(new GridLayout());
+        textAreaBox.setOpaque(false);
+        int margin = 30;
+        textAreaBox.setBorder(new EmptyBorder(margin, margin, margin, margin));
+        textAreaBox.add(textArea);
+
         this.setOpaque(false);
         this.setLayout(new BorderLayout());
         this.add(getNorthPan(), BorderLayout.NORTH);
-        this.add(textArea, BorderLayout.CENTER);
+        this.add(textAreaBox, BorderLayout.CENTER);
+        this.add(getSouthPan(), BorderLayout.SOUTH);
     }
 
     private final class GameTextArea extends JPanel {
@@ -51,7 +57,7 @@ public final class GameView extends JPanel {
 
         private GameTextArea() {
             setOpaque(false);
-            setBorder(new EmptyBorder(10, 10, 10, 10));
+            setBorder(new EmptyBorder(10, 15, 10, 15));
             //setBorder(new LineBorder(Color.BLACK, 5, true));
             this.wordQueue = game.getWordQueue();
             // TEMPORARY
@@ -130,9 +136,11 @@ public final class GameView extends JPanel {
         JLabel title = HomeView.getTitle("Dactylo Game", 30);
         title.setVerticalAlignment(JLabel.CENTER);
 
-        playerName.setVerticalAlignment(JLabel.CENTER);
-
+        gameMode = Window.getJLabel("Game mode: " + game.getType(), 18, Color.WHITE);
         gameMode.setVerticalAlignment(JLabel.CENTER);
+        playerName = Window.getJLabel("Player: " + game.getPlayers().get(0).getName(), 18, Color.WHITE);
+        playerName.setVerticalAlignment(JLabel.CENTER);
+        
         // title.setPolice, setColor....
         north.add(title, BorderLayout.CENTER);
         north.add(playerName, BorderLayout.WEST);
@@ -142,8 +150,14 @@ public final class GameView extends JPanel {
     }
 
     private JPanel getSouthPan() {
-        // TODO: Write getSouthPan...
-        return null;
+        JPanel south = new JPanel();
+        south.setOpaque(false);
+        south.setLayout(new BorderLayout());
+
+        south.add(statsBox, BorderLayout.WEST);
+        south.add(HomeView.getAuthors("@parismollo & @leopoldabgn", 15), BorderLayout.EAST);
+
+        return south;
     }
 
     public void nextWord() {

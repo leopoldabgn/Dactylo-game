@@ -2,9 +2,11 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.LayoutManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -161,6 +163,17 @@ public class Window extends JFrame {
 		label.setFont(getNewFont(size));
 		label.setForeground(color);
 		return label;
+	}
+
+	public static JPanel getPanel(int border, LayoutManager layout, Component... panelsToAdd) {
+		JPanel pan = new JPanel();
+		pan.setOpaque(false);
+		pan.setBorder(new EmptyBorder(border, border, border, border));
+
+		for(Component p : panelsToAdd)
+			pan.add(p);
+
+		return pan;
 	}
 
 } 
