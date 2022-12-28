@@ -8,6 +8,8 @@ import model.Game;
 import model.GameFactory;
 import model.Player;
 import model.Game.GameType;
+import utils.Utils;
+import view.Window;
 
 public class HomeController {
 
@@ -18,7 +20,7 @@ public class HomeController {
    * @param radioButtonChallenge
    * @param radioButtonMP
    */
-  public void playPressed(JTextField playerNameInput, JRadioButton radioButtonNormal, JRadioButton radioButtonChallenge, JRadioButton radioButtonMP) {
+  public void playPressed(Window win, JTextField playerNameInput, JRadioButton radioButtonNormal, JRadioButton radioButtonChallenge, JRadioButton radioButtonMP) {
     String playerName = playerNameInput.getText();
     GameType gameType = getGameType(radioButtonNormal, radioButtonChallenge, radioButtonMP);
     
@@ -27,9 +29,21 @@ public class HomeController {
     players.add(player);
 
     Game game = GameFactory.getGame(gameType, "src/main/resources/sample.txt", players);
-    // [TODO]: Open next view with game 
-    // Window.openGame(game);
-    System.out.println(game);
+    // [TODO]: According to game type open correct game view from window
+    switch (gameType) {
+      case CHALLENGE:
+        // win.setChallengeMode();
+        Utils.log("Challenge Mode not yet implemented");
+        break;
+      case MP:
+        // win.setMPMode();
+        Utils.log("Challenge Mode not yet implemented");
+        break;
+      default:
+        win.setNormalMode(game);    
+        break;
+    }
+    Utils.log("Game Info : "+ game.toString());
   }
 
   /**

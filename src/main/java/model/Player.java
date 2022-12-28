@@ -4,10 +4,12 @@ public class Player {
   private String name;
   private int points;
   private Game currentGame;
+  private Stats playerStats;
   
   public Player(String name, int points) {
     this.name = name;
     this.points = points;
+    updatePlayerStats();
   }
 
   /** 
@@ -16,7 +18,6 @@ public class Player {
   public String getName() {
     return name;
   }
-
   
   /** 
    * @param name
@@ -24,7 +25,6 @@ public class Player {
   public void setName(String name) {
     this.name = name;
   }
-
   
   /** 
    * @return int
@@ -32,7 +32,6 @@ public class Player {
   public int getPoints() {
     return points;
   }
-
   
   /** 
    * @param points
@@ -49,7 +48,6 @@ public class Player {
     return currentGame;
   }
 
-
   /**
    * @param currentGame
    */
@@ -57,7 +55,13 @@ public class Player {
     this.currentGame = currentGame;
   }
 
+  public void updatePlayerStats() {
+    this.playerStats = Stats.createStats(this);
+  }
 
+  public Stats getPlayerStats() {
+    return playerStats;
+  }
   
   /** 
    * @return String

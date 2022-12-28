@@ -23,7 +23,7 @@ import model.WordQueue;
 
 public final class GameView extends JPanel implements ActionListener {
 
-    private Window win;
+    // private Window win;
     private Game game;
     private Timer timer;
     // north panel
@@ -33,7 +33,7 @@ public final class GameView extends JPanel implements ActionListener {
     private GameTextArea textArea;
 
     public GameView(Window win, Game game) {
-        this.win = win;
+        // this.win = win;
         this.game = game;
         this.textArea = new GameTextArea();
         this.infosBox = new InfosBox(game.getInfos());
@@ -66,7 +66,7 @@ public final class GameView extends JPanel implements ActionListener {
             this.wordQueue = game.getWordQueue();
             // TEMPORARY
             for(int i=0;i<20;i++)
-                wordQueue.addNext(); // On ajoute les premiers mots dans la Queue
+                wordQueue.add(); // On ajoute les premiers mots dans la Queue
             setAndAddWordViewQueue(wordQueue.getQueue());
         }
 
@@ -113,17 +113,17 @@ public final class GameView extends JPanel implements ActionListener {
             return actualWord;
         }
 
-        public void nextWords() {
-            // On fait 15 ou 20 next ? On change les 20 mots affichés d'un coup ?
-            /*
-            for(int i=0;i<20;i++)
-                wordQueue.addNext();
-            setWordViewQueue(wordQueue.getQueue());
-            ....
-            revalidate();
-            repaint();
-            */
-        }
+        // public void nextWords() {
+        //     // On fait 15 ou 20 next ? On change les 20 mots affichés d'un coup ?
+        //     /*
+        //     for(int i=0;i<20;i++)
+        //         wordQueue.addNext();
+        //     setWordViewQueue(wordQueue.getQueue());
+        //     ....
+        //     revalidate();
+        //     repaint();
+        //     */
+        // }
 
         public WordView getActualWord() {
             return actualWord;

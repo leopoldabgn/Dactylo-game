@@ -1,6 +1,8 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import controllers.HomeController;
 import java.awt.*;
 
@@ -17,12 +19,15 @@ public final class HomeView extends JPanel{
   private JRadioButton radioButtonMP;
   // HomeController
   private HomeController homeController = new HomeController();
+
+  // Windown reference
+  private Window window;
   
 
   /**
    * Create HomeView
    */
-  public HomeView() {
+  public HomeView(Window win) {
     // Update Layout and Background color
     this.setLayout(viewLayout);
     this.setBackground(HomeView.backgroundColor);
@@ -30,6 +35,9 @@ public final class HomeView extends JPanel{
     this.add(getTitle("Dactylo Game", 30), BorderLayout.PAGE_START);
     this.add(getLoginBox(), BorderLayout.CENTER);
     this.add(getAuthors("@parismollo & @leopoldabgn", 15), BorderLayout.PAGE_END);
+
+    // Set window
+    this.window = win;
   }
 
   
@@ -44,6 +52,7 @@ public final class HomeView extends JPanel{
     gameTitle.setFont(Window.getNewFont(fontSize));
     gameTitle.setForeground(new Color(0, 0, 0));
     gameTitle.setHorizontalAlignment(JLabel.CENTER);
+    gameTitle.setBorder(new EmptyBorder(5, 0, 15, 0));;
     return gameTitle;
   }
 
@@ -53,7 +62,26 @@ public final class HomeView extends JPanel{
    * @return JPanel
    */
   private JPanel getLoginBox() { 
-    JPanel loginBox = new JPanel();
+    // JPanel loginBox = new JPanel();
+
+    JPanel loginBox = new JPanel() {
+      @Override
+      protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(new Color(42, 157, 143));
+        g.fillRect(5, 5, getWidth() - 10, getHeight() - 10);
+        g.setColor(Color.BLACK);
+        
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        RenderingHints.VALUE_ANTIALIAS_ON);        
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); 
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawRoundRect(2, 2, getWidth() - 6, getHeight() - 6, 20, 20);
+      }
+  };
+    loginBox.setOpaque(false);
+    loginBox.setBorder(new EmptyBorder(10, 15, 10, 15));
     loginBox.setLayout(new GridLayout(3, 1));
     loginBox.setBackground(HomeView.backgroundColor);
     // Add components to loginBox Panel
@@ -62,8 +90,15 @@ public final class HomeView extends JPanel{
     loginBox.add(Window.getPanel(0, new GridBagLayout(), playerInput));
     loginBox.add(getGameModeAux());
     loginBox.add(getPlayButtonAux("Play", 20));
-    
-    return loginBox;
+    JPanel whiteBox = new WhiteBox();
+    whiteBox.add(loginBox);
+    JPanel textAreaBox = new JPanel();
+    textAreaBox.setLayout(new GridLayout());
+    textAreaBox.setOpaque(false);
+    int margin = 30;
+    textAreaBox.setBorder(new EmptyBorder(margin, margin, margin, margin));
+    textAreaBox.add(whiteBox);
+    return textAreaBox;
   }
 
   
@@ -79,6 +114,7 @@ public final class HomeView extends JPanel{
     authors.setHorizontalAlignment(JLabel.RIGHT);
     authors.setVerticalAlignment(JLabel.BOTTOM);
     authors.setForeground(new Color(0, 0, 0));
+    authors.setBorder(new EmptyBorder(10, 0, 5, 0));;
     return authors;
   }
 
@@ -98,9 +134,10 @@ public final class HomeView extends JPanel{
     playButton.setBackground(new Color(0, 0, 0));
     playButton.setFocusPainted(false);
     playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    playButton.addActionListener((event) -> this.homeController.playPressed(this.playerNameInput, this.radioButtonNormal, this.radioButtonChallenge, this.radioButtonMP));
+    playButton.addActionListener((event) -> this.homeController.playPressed(this.window, this.playerNameInput, this.radioButtonNormal, this.radioButtonChallenge, this.radioButtonMP));
+    // playButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     panelWrapper.add(playButton);
-    // panelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
+    panelWrapper.setOpaque(false);
     return panelWrapper;
   }
 
@@ -161,7 +198,7 @@ public final class HomeView extends JPanel{
     panelWrapper.add(playerNameLabel);
     panelWrapper.add(playerNameInput);
     // panelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
-
+    panelWrapper.setOpaque(false);
     return panelWrapper;
   }
     /**

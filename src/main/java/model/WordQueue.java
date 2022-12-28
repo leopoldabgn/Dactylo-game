@@ -19,9 +19,21 @@ public class WordQueue {
     
     public WordQueue(String dataPath) {
         this.dataSource = (Iterator<String>) createIterable(dataPath);
+        startQueue();
+    }
+    
+    /**
+    *  A private method that initializes the queue by adding a set number of items to it. 
+    * @param None.
+    * @return void.
+    */
+    private void startQueue() {
+        for(int i=0; i<MAX_SIZE; i++) {
+            this.add();
+        }
     }
 
-    
+
     /** 
      * Convert text file into Iterator. Used as a data source for the queue.
      * @param dataPath
@@ -40,12 +52,22 @@ public class WordQueue {
     }
 
 
+    /**
+     * Retrieves and removes the head (first element) of this queue.
+     * @return Word 
+     */
+    public Word poll() {
+        if(!(this.queue.isEmpty())) {
+            return this.queue.poll();
+        }
+        return null;
+    }
     
     /** 
      * Add the next word in the queue if not full.
      * @return boolean
      */
-    public boolean addNext() {
+    public boolean add() {
         if(this.queue.size() < this.MAX_SIZE) {
             return this.queue.add(new Word(this.dataSource.next()));
         }
@@ -69,12 +91,11 @@ public class WordQueue {
     }
 
     public static void main(String[] args) {
-        String pathToFile = "Dactylo-game/src/main/resources/sample.txt";
+        String pathToFile = "src/main/resources/sample.txt";
         WordQueue wq = new WordQueue(pathToFile);
-        for (int i = 0; i < 16; i++) {
-            wq.addNext();
-        }
-        System.out.println(wq);
+        System.out.println("\nQueue: "+wq+"\n");
+        wq.poll();
+        System.out.println("Queue: "+wq+"\n");
     }
 
 } 

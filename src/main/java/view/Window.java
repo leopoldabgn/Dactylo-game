@@ -16,7 +16,6 @@ import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import model.ChallengeGame;
@@ -30,7 +29,7 @@ import model.Player;
 public final class Window extends JFrame {
 	// Palette reference: https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
 
-	private WordView wordView; // TEMPORARY
+	// private WordView wordView; // TEMPORARY
 	private GameView gameView;
 
 	public Window(int w, int h) {
@@ -52,9 +51,11 @@ public final class Window extends JFrame {
 
 		// wordView = new WordView(new Word("Bonjour")); // TEMPORARY
 		
-		//setHomeView();
+		// setHomeView();
 
-		setNormalMode();
+		setStatsView();
+
+		// setNormalMode();
 
 		// setKeyListener();
 
@@ -67,19 +68,44 @@ public final class Window extends JFrame {
 		gameView = null;
 		this.addKeyListener(null);
 
-		this.getContentPane().add(new HomeView());
+		this.getContentPane().add(new HomeView(this));
 		revalidate();
 		repaint();
 	}
 
-	public void setNormalMode() {
-		this.getContentPane().removeAll();
 
-		// TEMPORARY: Pour le moment je mets un fake player
-		/////////////
+	public void setGameView(Game game) {
+		// [TODO]: to finish
+		switch (game.getType()) {
+			case NORMAL:
+				setNormalMode(game);
+				break;
+			default:
+				setNormalMode(game);
+				break;
+		}
+	}
+
+
+
+	public void setStatsView() {
 		var players = new ArrayList<>(Arrays.asList(new Player("leopold", 0)));
 		var game = GameFactory.getGame(GameType.NORMAL, "src/main/resources/sample.txt", players);
-		/////////////
+		this.getContentPane().removeAll();
+		this.getContentPane().add(new StatsView(this, game));
+		setNormalModeKeyListener();
+		revalidate();
+		repaint();
+	}
+
+	public void setNormalMode(Game game) {
+		this.getContentPane().removeAll();
+
+		// // TEMPORARY: Pour le moment je mets un fake player
+		// /////////////
+		// var players = new ArrayList<>(Arrays.asList(new Player("leopold", 0)));
+		// var game = GameFactory.getGame(GameType.NORMAL, "src/main/resources/sample.txt", players);
+		// /////////////
 
 		gameView = new GameView(this, game);
 		this.getContentPane().add(gameView);

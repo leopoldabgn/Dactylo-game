@@ -3,13 +3,14 @@ package model;
 import java.util.ArrayList;
 
 public abstract sealed class Game permits NormalGame, ChallengeGame, MultiplayerGame {
-  private final WordQueue wordQueue;
+  private WordQueue wordQueue;
   private Word actualWord;
   private Infos infos;
   private ArrayList<Player> players;
   private GameType type;
   private static int gameCounter = 0;
   private final int gameId;
+  private String pathToData;
 
   public enum GameType {
     NORMAL("Normal"), CHALLENGE("Challenge"), MP("Multiplayer");
@@ -30,6 +31,7 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
    * @param type
    */
   public Game(String pathToData, ArrayList<Player> players, GameType type) {
+    this.pathToData = pathToData;
     this.wordQueue = new WordQueue(pathToData);
     deepCopy(players);
     actualWord = wordQueue.getQueue().peek();
@@ -59,7 +61,6 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     return wordQueue;
   }
 
-  
   /** 
    * @return Word
    */
@@ -97,6 +98,16 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
    */
   public int getGameId() {
     return gameId;
+  }
+
+  public void reset() {
+    // [TODO]: reset player stats - wait for leo merge
+    for (Player player : this.getPlayers()) {
+      player.updatePlayerStats();
+    }
+    // [TODO]: reset game meta data
+    this.wordQueue = new WordQueue(this.pathToData);
+    this.infos = Infos.empty();
   }
 
   /** 
