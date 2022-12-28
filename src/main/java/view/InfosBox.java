@@ -19,7 +19,7 @@ public final class InfosBox extends JPanel {
         setOpaque(false);
         this.infos = infos;
 
-        setTime(infos.getTime());
+        setTimeLeft((int)(infos.getDuration() / 1000));
         setNbWords(infos.nbWords());
 
         this.setLayout(new GridLayout(1, 2));
@@ -44,12 +44,16 @@ public final class InfosBox extends JPanel {
         this.nbWords.setText(nbWords + " words");
     }
 
-    public void removeTime(int seconds) {
-        setTime(infos.getTime() - seconds);
+    public void setStartTime() {
+        infos.setStartTime();
+        refreshTimeLeft();
     }
 
-    public void setTime(int time) {
-        infos.setTime(time);
+    public void refreshTimeLeft() {
+        setTimeLeft((int)(infos.getTimeLeft() / 1000));
+    }
+
+    public void setTimeLeft(int time) {
         this.time.setText(time + "s left");
     }
 

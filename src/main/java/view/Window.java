@@ -16,7 +16,6 @@ import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import model.ChallengeGame;
@@ -26,11 +25,11 @@ import model.GameFactory;
 import model.MultiplayerGame;
 import model.NormalGame;
 import model.Player;
+import model.Word;
 
 public final class Window extends JFrame {
 	// Palette reference: https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
 
-	private WordView wordView; // TEMPORARY
 	private GameView gameView;
 
 	public Window(int w, int h) {
@@ -47,10 +46,7 @@ public final class Window extends JFrame {
 		int padding = 10;
 		((JPanel)getContentPane()).setBorder(new EmptyBorder(padding, padding, padding, padding));
 
-		// @paris, Il faut voir si on laisse ça ? Important car sinon on a des bords blancs sur le coté
 		getContentPane().setBackground(HomeView.backgroundColor);
-
-		// wordView = new WordView(new Word("Bonjour")); // TEMPORARY
 		
 		//setHomeView();
 
@@ -100,22 +96,36 @@ public final class Window extends JFrame {
 					gameView.startTimer();
 
 				WordView actualWord = gameView.getActualWord();
+				Player player = gameView.getActualPlayer();
 				switch(e.getKeyChar()) {
 					case KeyEvent.VK_SPACE:
+						// ICI: - on vérifie si le mot est bien tapé (pas besoin car déjà fait dans Word.WordStats)
+						// - Si oui on récupère la liste des caractères utiles de ce mot
+						// - Enfin, on ajoute cette liste à celle dans Player: player.addGoodChars(<maliste>)
+
+						player.concatToGoodChars(actualWord.getWordStats().getGoodChars());
+
 						// On valide le mot actuel.
+						actualWord.validate();
 						// On passe au suivant et on modifie les stats
 						gameView.nextWord();
 						break;
 					case KeyEvent.VK_BACK_SPACE:
+						actualWord.erasedActualChar(); // Important de le faire avant le removeLetter()
 						actualWord.removeLetter();
 						break;
 					default:
 						if(Character.isLetter(e.getKeyChar())) {
 							actualWord.pushLetter(e.getKeyChar());
+							
+							actualWord.setTimeActualChar(gameView.getTime());
 						}
 						break;
 				}
 				
+				// PEUT ETRE ICI :
+				// wordView.set...
+
 				// Pour une raison obscure, on doit rafraichir deux fois l'affichage
 				// pour que le texte se mette à jour...
 				for(int i=0;i<2;i++) {

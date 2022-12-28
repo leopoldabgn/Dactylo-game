@@ -18,6 +18,7 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import model.Game;
+import model.Player;
 import model.Word;
 import model.WordQueue;
 
@@ -37,7 +38,7 @@ public final class GameView extends JPanel implements ActionListener {
         this.game = game;
         this.textArea = new GameTextArea();
         this.infosBox = new InfosBox(game.getInfos());
-        this.timer = new Timer(1_000, this);
+        this.timer = new Timer(20, this);
         
         JPanel textAreaBox = new JPanel();
         textAreaBox.setLayout(new GridLayout());
@@ -185,9 +186,8 @@ public final class GameView extends JPanel implements ActionListener {
     }
 
     public void startTimer() {
-        timer.start();
-        // On enlève directement 1s 
-        infosBox.removeTime(1);
+        infosBox.setStartTime(); // On set le temps de départ dans l'objet infos
+        timer.start(); // On lance la boucle qui va mettre a jour le chrono
     }
 
     public void stopTimer() {
@@ -196,12 +196,20 @@ public final class GameView extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        infosBox.removeTime(1);
+        infosBox.refreshTimeLeft();
         if(game.getInfos().getTime() == 0) {
             timer.stop();
             // TODO: Start StatsView
             // win.setStatsView(...);
         }
+    }
+
+    public long getTime() {
+        return game.getInfos().getTime();
+    }
+
+    public Player getActualPlayer() {
+        return game.getActualPlayer();
     }
 
     public JPanel getTextArea() {
