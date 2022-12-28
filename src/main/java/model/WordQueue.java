@@ -43,7 +43,7 @@ public class WordQueue {
         try {
             List<String> fileContent = Files.readAllLines(Paths.get(dataPath));
             List<String> temp = new ArrayList<>();
-            fileContent.stream().forEach(x -> Arrays.asList(x.split(" ")).forEach(y -> temp.add(y)));
+            fileContent.stream().forEach(x -> Arrays.asList(x.split(" ")).forEach(y -> temp.add(deleteChars(y, ";.,"))));
             return temp.iterator();
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,6 +61,16 @@ public class WordQueue {
             return this.queue.poll();
         }
         return null;
+    }
+    
+    private String deleteChars(String str, String charsToRemove) {
+        StringBuilder builder = new StringBuilder();
+        for(Character c : str.toCharArray()) {
+            if(charsToRemove.contains(c+""))
+                continue;
+            builder.append(c);
+        }
+        return builder.toString();
     }
     
     /** 

@@ -93,4 +93,16 @@ public class WordView extends JLabel {
         setColoredText(word.getPushedContent());
     }
 
+    public Word.WordStats getWordStats() {
+        return word.getWordStats();
+    }
+
+    public void setTimeActualChar(long time) {
+        word.setTimeActualChar(time);
+    }
+
+    public void erasedActualChar() {
+        word.erasedActualChar();
+    }
+
 }

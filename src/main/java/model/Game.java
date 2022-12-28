@@ -7,6 +7,7 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
   private Word actualWord;
   private Infos infos;
   private ArrayList<Player> players;
+  private Player actualPlayer;
   private GameType type;
   private static int gameCounter = 0;
   private final int gameId;
@@ -38,6 +39,7 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     this.infos = Infos.empty();
     this.type = type;
     this.gameId = Game.gameCounter++;
+    this.actualPlayer = players.get(0); // Par défault c'est le premier joueur de la liste.
   }
   
   
@@ -115,6 +117,10 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
    */
   public String toString() {
     return String.format("\u001b[32mGame id:\u001b[0m %d - \u001b[34mGame Mode:\u001b[0m %s - \u001b[31mPlayers:\u001b[0m %s",this.getGameId(),  this.getType(), this.getPlayers());
+  }
+
+  public Player getActualPlayer() {
+    return actualPlayer;
   }
 
   public Infos getInfos() {

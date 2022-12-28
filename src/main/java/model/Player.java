@@ -1,15 +1,25 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
   private String name;
   private int points;
   private Game currentGame;
   private Stats playerStats;
-  
+  private ArrayList<Word.CharStats> goodChars; // Les caractères utiles écrit dans currentGame
+
   public Player(String name, int points) {
     this.name = name;
     this.points = points;
+    this.goodChars = new ArrayList<>();
     updatePlayerStats();
+  }
+
+  public boolean concatToGoodChars(List<Word.CharStats> chars) {
+    System.out.println(chars);
+    return goodChars.addAll(chars);
   }
 
   /** 
