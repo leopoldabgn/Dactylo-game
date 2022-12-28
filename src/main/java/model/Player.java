@@ -66,7 +66,7 @@ public class Player {
   }
 
   public void updatePlayerStats() {
-    this.playerStats = Stats.createStats(this);
+    this.playerStats = Stats.createStats(currentGame, this);
   }
 
   public Stats getPlayerStats() {

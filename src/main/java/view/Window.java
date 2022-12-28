@@ -48,13 +48,15 @@ public final class Window extends JFrame {
 
 		getContentPane().setBackground(HomeView.backgroundColor);
 		
-		// setHomeView();
+		setHomeView();
 
-		setStatsView();
+		//setStatsView();
 
 		// setNormalMode();
 
 		// setKeyListener();
+
+		setNormalModeKeyListener();
 
 		this.setVisible(true);
 	}
@@ -63,7 +65,6 @@ public final class Window extends JFrame {
 		this.getContentPane().removeAll();
 		// On remet à zero gameView et le keyListener
 		gameView = null;
-		this.addKeyListener(null);
 
 		this.getContentPane().add(new HomeView(this));
 		revalidate();
@@ -83,14 +84,10 @@ public final class Window extends JFrame {
 		}
 	}
 
-
-
-	public void setStatsView() {
-		var players = new ArrayList<>(Arrays.asList(new Player("leopold", 0)));
-		var game = GameFactory.getGame(GameType.NORMAL, "src/main/resources/sample.txt", players);
+	public void setStatsView(Game game) {
 		this.getContentPane().removeAll();
 		this.getContentPane().add(new StatsView(this, game));
-		setNormalModeKeyListener();
+		// setNormalModeKeyListener();
 		revalidate();
 		repaint();
 	}
@@ -103,12 +100,13 @@ public final class Window extends JFrame {
 		// var players = new ArrayList<>(Arrays.asList(new Player("leopold", 0)));
 		// var game = GameFactory.getGame(GameType.NORMAL, "src/main/resources/sample.txt", players);
 		// /////////////
-
+		
 		gameView = new GameView(this, game);
 		this.getContentPane().add(gameView);
-		setNormalModeKeyListener();
+		// setNormalModeKeyListener();
 		revalidate();
 		repaint();
+		requestFocus();
 	}
 
 	public void setNormalModeKeyListener() {

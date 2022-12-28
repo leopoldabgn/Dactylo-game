@@ -24,7 +24,7 @@ import model.WordQueue;
 
 public final class GameView extends JPanel implements ActionListener {
 
-    // private Window win;
+    private Window win;
     private Game game;
     private Timer timer;
     // north panel
@@ -34,7 +34,7 @@ public final class GameView extends JPanel implements ActionListener {
     private GameTextArea textArea;
 
     public GameView(Window win, Game game) {
-        // this.win = win;
+        this.win = win;
         this.game = game;
         this.textArea = new GameTextArea();
         this.infosBox = new InfosBox(game.getInfos());
@@ -197,10 +197,11 @@ public final class GameView extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         infosBox.refreshTimeLeft();
-        if(game.getInfos().getTime() == 0) {
+        if(game.getInfos().getTimeLeft() == 0) {
             timer.stop();
-            // TODO: Start StatsView
-            // win.setStatsView(...);
+            // Start StatsView
+            game.getActualPlayer().updatePlayerStats();
+            win.setStatsView(game);
         }
     }
 

@@ -1,6 +1,6 @@
 package model;
 
-public class Stats {
+public final class Stats {
   /*
   
   - Vitesse (MPM) : le nombre de caractères utiles, divisé par le temps en minute, divisé encore par 5 (ici, on considère par convention qu’un mot fait en moyenne 5 caractères).
@@ -18,22 +18,19 @@ public class Stats {
     this.frequency = frequency;
   }
 
-  public static Stats createStats(Player player) {
-    return new Stats(computeWPM(player), computePrecision(player), computeFrequency(player));
+  public static Stats createStats(Game game, Player player) {
+    return new Stats(computeWPM(game, player), computePrecision(game, player), computeFrequency(game, player));
   }
 
-
-  private static int computeFrequency(Player player) {
+  private static int computeFrequency(Game game, Player player) {
     return 150;
   }
 
-
-  private static int computePrecision(Player player) {
+  private static int computePrecision(Game game, Player player) {
     return 15;
   }
 
-
-  private static int computeWPM(Player player) {
+  private static int computeWPM(Game game, Player player) {
     return 7;
   }
 

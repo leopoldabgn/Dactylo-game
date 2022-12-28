@@ -29,20 +29,7 @@ public class HomeController {
     players.add(player);
 
     Game game = GameFactory.getGame(gameType, "src/main/resources/sample.txt", players);
-    // [TODO]: According to game type open correct game view from window
-    switch (gameType) {
-      case CHALLENGE:
-        // win.setChallengeMode();
-        Utils.log("Challenge Mode not yet implemented");
-        break;
-      case MP:
-        // win.setMPMode();
-        Utils.log("Challenge Mode not yet implemented");
-        break;
-      default:
-        win.setNormalMode(game);    
-        break;
-    }
+    win.setGameView(game);
     Utils.log("Game Info : "+ game.toString());
   }
 
