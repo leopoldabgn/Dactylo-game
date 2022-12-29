@@ -78,9 +78,9 @@ public final class StatsView extends JPanel {
 
     private void addStats(JPanel statsBox) {
       Player player = this.game.getActualPlayer();
-      statsBox.add(Window.getPanel(0, new GridBagLayout(), getStatPanel("Frequency:", Integer.toString(player.getPlayerStats().getFrequency()))));
-      statsBox.add(Window.getPanel(0, new GridBagLayout(), getStatPanel("WPM:", Integer.toString(player.getPlayerStats().getWords_per_minute()))));
-      statsBox.add(Window.getPanel(0, new GridBagLayout(), getStatPanel("Precision:", Integer.toString(player.getPlayerStats().getPrecision()))));
+      statsBox.add(Window.getPanel(0, new GridBagLayout(), getStatPanel("Frequency:", player.getPlayerStats().getFrequency()+"ms")));
+      statsBox.add(Window.getPanel(0, new GridBagLayout(), getStatPanel("WPM:", player.getPlayerStats().getWords_per_minute()+"")));
+      statsBox.add(Window.getPanel(0, new GridBagLayout(), getStatPanel("Precision:", player.getPlayerStats().getPrecision()+"%")));
     }
 
     private JPanel getNorthPan() {

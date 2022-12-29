@@ -10,8 +10,6 @@ import java.awt.LayoutManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,12 +18,9 @@ import javax.swing.border.EmptyBorder;
 
 import model.ChallengeGame;
 import model.Game;
-import model.Game.GameType;
-import model.GameFactory;
 import model.MultiplayerGame;
 import model.NormalGame;
 import model.Player;
-import model.Word;
 
 public final class Window extends JFrame {
 	// Palette reference: https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
@@ -62,9 +57,9 @@ public final class Window extends JFrame {
 	}
 
 	public void setHomeView() {
-		this.getContentPane().removeAll();
-		// On remet à zero gameView et le keyListener
+		// On remet à zero gameView
 		gameView = null;
+		this.getContentPane().removeAll();
 
 		this.getContentPane().add(new HomeView(this));
 		revalidate();
@@ -85,6 +80,8 @@ public final class Window extends JFrame {
 	}
 
 	public void setStatsView(Game game) {
+		// On remet à zero gameView
+		gameView = null;
 		this.getContentPane().removeAll();
 		this.getContentPane().add(new StatsView(this, game));
 		// setNormalModeKeyListener();
@@ -144,6 +141,8 @@ public final class Window extends JFrame {
 							actualWord.pushLetter(e.getKeyChar());
 							
 							actualWord.setTimeActualChar(gameView.getTime());
+							// Pour moi, on ne doit compter que les lettres ?
+							player.keyPressed(); // On augmente le compteur de touches
 						}
 						break;
 				}

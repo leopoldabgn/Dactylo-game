@@ -198,6 +198,7 @@ public final class GameView extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         infosBox.refreshTimeLeft();
         if(game.getInfos().getTimeLeft() == 0) {
+            game.getInfos().setEndTime();
             timer.stop();
             // Start StatsView
             game.getActualPlayer().updatePlayerStats();

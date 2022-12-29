@@ -9,16 +9,18 @@ public class Player {
   private Game currentGame;
   private Stats playerStats;
   private ArrayList<Word.CharStats> goodChars; // Les caractères utiles écrit dans currentGame
+  private long nbKeysPressed = 0;
 
   public Player(String name, int points) {
     this.name = name;
     this.points = points;
     this.goodChars = new ArrayList<>();
-    updatePlayerStats();
+    //updatePlayerStats();
   }
 
   public boolean concatToGoodChars(List<Word.CharStats> chars) {
-    System.out.println(chars);
+    // System.out.println(chars); // Pratique pour voir les caractères utiles validés
+    // System.out.println(Stats.getDurationsBetween2Chars(chars)); // Calcul les durées entre chaque paires de caractères
     return goodChars.addAll(chars);
   }
 
@@ -73,6 +75,14 @@ public class Player {
     return playerStats;
   }
   
+  public void keyPressed() {
+    nbKeysPressed++;
+  }
+
+  public long nbKeysPressed() {
+    return nbKeysPressed;
+  }
+
   /** 
    * @return String
    */
@@ -80,4 +90,12 @@ public class Player {
     return String.format("Name: %s, Points: %d", this.getName(), this.getPoints());
   }
     
+  public ArrayList<Word.CharStats> getGoodChars() {
+    return new ArrayList<>(goodChars);
+  }
+
+  public int nbGoodChars() {
+    return goodChars.size();
+  }
+
 }

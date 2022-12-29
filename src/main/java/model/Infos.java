@@ -3,7 +3,7 @@ package model;
 public final class Infos implements Cloneable {
     
     private int nbWords; // Le nombre de mots tapés
-    private long startTime, duration; // Le temps en millisecondes
+    private long startTime = -1, duration = -1, endTime = -1; // Le temps en millisecondes
 
     private Infos() {}
 
@@ -28,11 +28,22 @@ public final class Infos implements Cloneable {
         this.startTime = System.currentTimeMillis();
     }
 
+    public void setEndTime() {
+        if(getTimeLeft() == -1)
+            this.endTime = getTime();
+        else
+            this.endTime = duration - getTimeLeft();
+    }
+
     public long getTime() {
-        return System.currentTimeMillis() - startTime;
+        if(endTime == -1) // Le chrono tourne toujours
+            return System.currentTimeMillis() - startTime;
+        return endTime; // Si chrono arrêté, alors time = endTime;
     }
 
     public long getTimeLeft() {
+        if(duration == -1) // Pas de durée définie, donc pas de "temps restant"
+            return -1;
         long timeLeft = duration - getTime();
         if(timeLeft < 0)
             timeLeft = 0;

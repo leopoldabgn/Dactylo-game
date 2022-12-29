@@ -29,6 +29,9 @@ public class HomeController {
     players.add(player);
 
     Game game = GameFactory.getGame(gameType, "src/main/resources/sample.txt", players);
+    for(Player p : players) {
+      p.setCurrentGame(game);
+    }
     win.setGameView(game);
     Utils.log("Game Info : "+ game.toString());
   }
