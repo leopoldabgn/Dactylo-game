@@ -12,7 +12,7 @@ public final class NormalGame extends Game {
   @Override
   public void init() {
     Infos infos = getInfos();
-    infos.setDuration(10);
+    infos.setDuration(20);
   }
 
 }

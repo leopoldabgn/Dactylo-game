@@ -13,7 +13,7 @@ public class Player {
 
   public Player(String name, int points) {
     this.name = name;
-    this.points = points;
+    this.points = points; // Ceci on va remplacer par "vies" après dans mode challenge
     this.goodChars = new ArrayList<>();
     //updatePlayerStats();
   }
@@ -96,6 +96,13 @@ public class Player {
 
   public int nbGoodChars() {
     return goodChars.size();
+  }
+
+  public void resetPlayerData() {
+    this.setPoints(0);
+    this.goodChars = new ArrayList<>();
+    this.nbKeysPressed = 0;
+    this.updatePlayerStats();
   }
 
 }

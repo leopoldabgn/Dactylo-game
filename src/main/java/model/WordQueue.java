@@ -77,11 +77,13 @@ public class WordQueue {
      * Add the next word in the queue if not full.
      * @return boolean
      */
-    public boolean add() {
+    public Word add() {
         if(this.queue.size() < this.MAX_SIZE) {
-            return this.queue.add(new Word(this.dataSource.next()));
+            Word new_word = new Word(this.dataSource.next());
+            this.queue.add(new_word);
+            return new_word;
         }
-        return false;
+        return null;
     }
 
     // Copie necessaire ici ?
@@ -99,13 +101,13 @@ public class WordQueue {
         }
         return res;
     }
-
+    
     public static void main(String[] args) {
         String pathToFile = "src/main/resources/sample.txt";
         WordQueue wq = new WordQueue(pathToFile);
-        System.out.println("\nQueue: "+wq+"\n");
+        // System.out.println("\nQueue: "+wq+"\n");
         wq.poll();
-        System.out.println("Queue: "+wq+"\n");
+        // System.out.println("Queue: "+wq+"\n");
     }
 
 } 

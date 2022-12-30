@@ -126,9 +126,9 @@ public final class Window extends JFrame {
 						// - Enfin, on ajoute cette liste à celle dans Player: player.addGoodChars(<maliste>)
 
 						player.concatToGoodChars(actualWord.getWordStats().getGoodChars());
-
 						// On valide le mot actuel.
 						actualWord.validate();
+						wordsFullyvalidated(actualWord); // Temp
 						// On passe au suivant et on modifie les stats
 						gameView.nextWord();
 						break;
@@ -156,6 +156,12 @@ public final class Window extends JFrame {
 					gameView.getTextArea().revalidate();
 					revalidate();
 					repaint();
+				}
+			}
+
+			private void wordsFullyvalidated(WordView actualWord) {
+				if (actualWord.getWordStats().nbGoodChars() == actualWord.getWordStats().getWordSize()) {
+					gameView.getInfosBox().addWord();
 				}
 			}
 		});

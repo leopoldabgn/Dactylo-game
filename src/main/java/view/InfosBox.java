@@ -12,8 +12,8 @@ import model.Infos;
 public final class InfosBox extends JPanel {
     
     private Infos infos;
-    private JLabel time = Window.getJLabel("", 15, Color.BLUE),
-                   nbWords = Window.getJLabel("", 15, Color.RED);
+    private JLabel time = Window.getJLabel("", 15, new Color(124, 181, 24)),
+                   nbWords = Window.getJLabel("", 15, new Color(251, 97, 7));
 
     public InfosBox(Infos infos) {
         setOpaque(false);
@@ -33,6 +33,7 @@ public final class InfosBox extends JPanel {
      */
     public void addWord() {
         setNbWords(infos.nbWords() + 1);
+        // Utils.log("addWord()");
     }
 
     /*

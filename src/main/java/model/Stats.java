@@ -33,7 +33,7 @@ public final class Stats {
   // En millisecondes
   private static long computeFrequency(Game game, Player player) {
     ArrayList<Long> durations = getDurationsBetween2Chars(player.getGoodChars());
-    System.out.println(durations);
+    // System.out.println(durations);
     if(durations.isEmpty())
       return 0;
     // On calcul l'écart type de notre série statistique (les durées entre deux chars utiles)

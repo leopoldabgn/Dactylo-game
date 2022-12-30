@@ -66,8 +66,8 @@ public final class GameView extends JPanel implements ActionListener {
             //setBorder(new LineBorder(Color.BLACK, 5, true));
             this.wordQueue = game.getWordQueue();
             // TEMPORARY
-            for(int i=0;i<20;i++)
-                wordQueue.add(); // On ajoute les premiers mots dans la Queue
+            // for(int i=0;i<20;i++)
+            //     wordQueue.add(); // On ajoute les premiers mots dans la Queue
             setAndAddWordViewQueue(wordQueue.getQueue());
         }
 
@@ -107,7 +107,12 @@ public final class GameView extends JPanel implements ActionListener {
          * Permet de prendre le focus sur le mot suivant
          */
         public WordView nextWord() {
+            // this.add(new WordView(new Word("hello")));
+            this.wordQueue.poll();
             actualWord = wordViewQueue.poll();
+            WordView newWordView = new WordView(this.wordQueue.add());
+            this.wordViewQueue.add(newWordView);
+            this.add(newWordView);
             if(actualWord == null)
                 return null;
             game.nextWord();
@@ -197,6 +202,7 @@ public final class GameView extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         infosBox.refreshTimeLeft();
+        // 
         if(game.getInfos().getTimeLeft() == 0) {
             game.getInfos().setEndTime();
             timer.stop();
@@ -208,6 +214,10 @@ public final class GameView extends JPanel implements ActionListener {
 
     public long getTime() {
         return game.getInfos().getTime();
+    }
+
+    public InfosBox getInfosBox() {
+        return infosBox;
     }
 
     public Player getActualPlayer() {

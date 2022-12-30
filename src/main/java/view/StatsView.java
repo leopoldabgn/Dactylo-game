@@ -91,12 +91,13 @@ public final class StatsView extends JPanel {
 
         JLabel title = HomeView.getTitle("Results", 30);
         title.setVerticalAlignment(JLabel.CENTER);
-
+        
         JLabel gameMode = Window.getJLabel("Game mode: " + game.getType(), 18, Color.WHITE);
         gameMode.setVerticalAlignment(JLabel.CENTER);
+
+        
         JLabel playerName = Window.getJLabel("Player: " + game.getPlayers().get(0).getName(), 18, Color.WHITE);
         playerName.setVerticalAlignment(JLabel.CENTER);
-        
       
         north.add(title, BorderLayout.CENTER);
         north.add(playerName, BorderLayout.WEST);

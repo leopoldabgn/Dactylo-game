@@ -119,6 +119,10 @@ public class Word implements Cloneable {
             return new WordStats(this);
         }
 
+        public int getWordSize() {
+            return this.charSeq.size();
+        }
+
     }
 
     // On retient le temps a chaque fois qu'un caractère est tapé
