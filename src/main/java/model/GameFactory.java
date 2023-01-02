@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import model.Game.GameType;
 
-public class GameFactory {
+public final class GameFactory {
   /**
    * @param type
    * @param data

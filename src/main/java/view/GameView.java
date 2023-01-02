@@ -7,8 +7,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -17,11 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
+import model.ChallengeGame;
 import model.Game;
+import model.Game.GameType;
+import model.Infos;
 import model.Player;
 import model.Word;
 import model.WordQueue;
-import model.Game.GameType;
 
 public final class GameView extends JPanel implements ActionListener {
 
@@ -33,6 +37,8 @@ public final class GameView extends JPanel implements ActionListener {
     private InfosBox infosBox;
 
     private GameTextArea textArea;
+
+    private Infos challengeTimer;
 
     public GameView(Window win, Game game) {
         this.win = win;
@@ -99,7 +105,7 @@ public final class GameView extends JPanel implements ActionListener {
                 wordViewQueue.add(w);
                 this.add(w);
             });
-            actualWord = nextWord();
+            nextWord();
             revalidate();
             repaint();
         }
@@ -107,17 +113,41 @@ public final class GameView extends JPanel implements ActionListener {
         /**
          * Permet de prendre le focus sur le mot suivant
          */
-        public WordView nextWord() {
-            // this.add(new WordView(new Word("hello")));
+        private WordView nextWord() {
+            game.getInfos().setNbWords(game.getInfos().nbWords() + 1);
             this.wordQueue.poll();
             actualWord = wordViewQueue.poll();
-            WordView newWordView = new WordView(this.wordQueue.add());
+            // On ajoute un mot a la file que si elle n'est pas à moitié rempli
+            if(!((game instanceof ChallengeGame) && wordQueue.isHalfFull())) {
+                WordView newWordView = new WordView(this.wordQueue.add());
+                this.wordViewQueue.add(newWordView);
+                this.add(newWordView);
+            }
+            if(actualWord == null)
+                return null;
+            game.nextWord();
+            return actualWord;
+        }
+
+        private WordView addWordToText() {
+            Word nextWord = this.wordQueue.add();
+            // Si la file est pleine on renvoie null
+            if(nextWord == null)
+                return null;
+            WordView newWordView = new WordView(nextWord);
             this.wordViewQueue.add(newWordView);
             this.add(newWordView);
             if(actualWord == null)
                 return null;
             game.nextWord();
             return actualWord;
+        }
+
+        private void removeUselessWords() {
+            int queueSize = wordViewQueue.size();
+            int nbComponents = getComponentCount();
+            for(int i=0;i<nbComponents - queueSize - 1;i++)
+                remove(0);
         }
 
         // public void nextWords() {
@@ -187,6 +217,13 @@ public final class GameView extends JPanel implements ActionListener {
         return textArea.getActualWord();
     }
 
+    public void removeUselessWords() {
+        // Ici, on peut changer le chiffre après le modulo par exemple.
+        // L'affichage sera alors nettoyé uniquement tous les (n-1) mots écrit
+        if(game.getInfos().nbWords() > 0 && game.getInfos().nbWords() % 11 == 0)
+            textArea.removeUselessWords();
+    }
+
     public boolean isRunning() {
         return timer.isRunning();
     }
@@ -209,8 +246,40 @@ public final class GameView extends JPanel implements ActionListener {
                 win.setStatsView(game);
                 game.getInfos().setEndTime();
                 timer.stop();
+                return;
+            }
+            else {
+                if(challengeTimer == null) {
+                    challengeTimer = Infos.empty();
+                    // Change la vitesse selon le niveau de la partie (attribut level)
+                    double speedTime = game.getInfos().speedTime();
+                    challengeTimer.setDuration(speedTime);
+                    challengeTimer.setStartTime();
+                }
+                else if(challengeTimer.getTimeLeft() == 0) {
+                    // On ajoute un mot à la file et au textArea
+                    // Si ça renvoie null, c'est que la file est pleine
+                    // On doit donc forcer le push du mot actuel
+                    if(textArea.addWordToText() == null) {
+                        // On génère un appuie sur la touche SPACE grâce
+                        // à la classe Robot
+                        try {
+                            Robot rob = new Robot();
+                            rob.keyPress(KeyEvent.VK_SPACE);
+                            rob.keyRelease(KeyEvent.VK_SPACE);
+                        } catch(Exception e) {
+                            System.out.println("Impossible de forcer l'appuie de la touche espace");
+                        }
+                        removeUselessWords();
+                    }
+                    revalidate();
+                    repaint();
+                    // On remet le timer à 0. Il recommencera au prochain tour de boucle
+                    challengeTimer = null;
+                }
             }
         }
+
         if(game.getInfos().getTimeLeft() == 0) {
             game.getInfos().setEndTime();
             timer.stop();

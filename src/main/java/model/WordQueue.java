@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
-public class WordQueue {
+public final class WordQueue {
 
     private Queue<Word> queue = new LinkedList<>();
     private Iterator<String> dataSource;
-    private int MAX_SIZE = 15;
+    private int MAX_SIZE = 50;
     private boolean add_special = false;
     
     
@@ -31,7 +31,8 @@ public class WordQueue {
     * @return void.
     */
     private void startQueue() {
-        for(int i=0; i<MAX_SIZE; i++) {
+        // Au debut, la file contient 1/3 de sa capacité
+        for(int i=0; i<MAX_SIZE/3; i++) {
             this.add();
         }
     }
@@ -46,7 +47,7 @@ public class WordQueue {
         try {
             List<String> fileContent = Files.readAllLines(Paths.get(dataPath));
             List<String> temp = new ArrayList<>();
-            fileContent.stream().forEach(x -> Arrays.asList(x.split(" ")).forEach(y -> temp.add(deleteChars(y, ";.,"))));
+            fileContent.stream().forEach(x -> Arrays.asList(x.split(" ")).forEach(y -> temp.add(deleteChars(y, ";.,?:!"))));
             return temp.iterator();
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,7 +66,7 @@ public class WordQueue {
         }
         return null;
     }
-    
+
     private String deleteChars(String str, String charsToRemove) {
         StringBuilder builder = new StringBuilder();
         for(Character c : str.toCharArray()) {
@@ -100,11 +101,22 @@ public class WordQueue {
         return rand.nextInt(10) == 0;
     }
 
-    // Copie necessaire ici ?
     public Queue<Word> getQueue() {
         return new LinkedList<>(queue);
     }
-    
+
+    public boolean isHalfFull() {
+        return queue.size() >= MAX_SIZE / 2;
+    }
+
+    public boolean isFull() {
+        return queue.size() == MAX_SIZE;
+    }
+
+    public int getMaxSize() {
+        return MAX_SIZE;
+    }
+
     /** Overwrite toStrig method
      * @return String
      */

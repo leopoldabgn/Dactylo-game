@@ -9,7 +9,7 @@ import model.Game.GameType;
 import utils.Utils;
 import view.Window;
 
-public class StatController {
+public final class StatController {
   public void playPressed(Window win, Game game) {
     ArrayList<Player> players = game.getPlayers();
     players.stream().forEach(player -> player.resetPlayerData());

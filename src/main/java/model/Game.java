@@ -2,8 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import utils.Utils;
-
 public abstract sealed class Game permits NormalGame, ChallengeGame, MultiplayerGame {
   private WordQueue wordQueue;
   private Word actualWord;
@@ -120,7 +118,7 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
 
   public void updateLevel() {
     // Utils.log(""+this.infos.getWordLevelRef());
-    if(this.infos.getWordLevelRef() == 5) {
+    if(this.infos.getWordLevelRef() == 5) { // TODO: ATTENTION: changer cette valeur en "100"
       this.level += 1;
       // this.infos.setLevel(this.level);
       // Utils.log("Update level: "+this.level);

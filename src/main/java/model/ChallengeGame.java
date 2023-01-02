@@ -12,7 +12,7 @@ public final class ChallengeGame extends Game {
     @Override
     public void init() {
         Infos infos = getInfos();
-        infos.setLifes(super.getActualPlayer().getLifes());
+        infos.setLifes(getActualPlayer().getLifes());
         infos.setType(GameType.CHALLENGE);
     }
 

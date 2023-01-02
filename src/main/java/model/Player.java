@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public final class Player {
   private String name;
   private int points;
   private Game currentGame;

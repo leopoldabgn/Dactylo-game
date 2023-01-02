@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Word implements Cloneable {
+public final class Word implements Cloneable {
 
     private String content, pushContent;
     private boolean validate;
@@ -70,6 +70,10 @@ public class Word implements Cloneable {
         this.pushContent = pushContent;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isValidate() {
         return validate;
     }
@@ -78,15 +82,23 @@ public class Word implements Cloneable {
         this.validate = true;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isSpecial() {
         return special;
     }
 
+    
+    /** 
+     * @param special
+     */
     public void setSpecial(boolean special) {
         this.special = special;
     }
 
-    public class WordStats implements Cloneable {
+    public final class WordStats implements Cloneable {
 
         private ArrayList<CharStats> charSeq;
 
@@ -110,13 +122,25 @@ public class Word implements Cloneable {
         }
 
         /** Number of errors in the push word in comparison with the real word.
-         *  This function can be useful to generate stats for a player in a game
+         *  Permet de calculer la distance d'édition entre deux mots.
+         *  Cette fonction est utile pour calculer le nombre d'erreurs dans un mot
+         *  pour le mode Challenge (mode jeu)
          * @return int
          */
         public int nbErrors() {
-            // TODO: Il faut calculer la distance d'édition entre deux mots
-            // TEMP:
-            return this.charSeq.size() -  this.nbGoodChars() ;
+            int maxLen = Math.max(content.length(), pushContent.length());
+            int dist = 0;
+            // On parcourt les deux mots caractère par caractère
+            for(int i=0;i<maxLen;i++) {
+                if(i >= content.length() || i >= pushContent.length()) {
+                    dist += 1;
+                    continue;
+                }
+                // Si c'est le même caractère on ajoute rien. Sinon on ajoute 1
+                dist += content.charAt(i) == pushContent.charAt(i) ? 0 : 1;
+            }
+
+            return dist;
         }
 
         public List<CharStats> getGoodChars() {
@@ -136,14 +160,15 @@ public class Word implements Cloneable {
     }
 
     // On retient le temps a chaque fois qu'un caractère est tapé
-    // Si un caractère est éffacer on met erased à true
+    // Si un caractère est effacé on met erased à true
     // A la fin on regarde tous les mots entièrement bien écrit
     // Pour chacun des mots, on regarde le temps entre chaque caractère utile
     // Sachant qu'un caractère utile est un caractère qui n'a pas été effacé et
     // donc qui n'a pas erased à true. Il faut que erased soit faux
 
-    // On récupère la liste de tous les caractères utiles pour chaque mot
-    // On calcule a chaque fois le temps entre deux caractères utiles à la suite
+    // On récupère les nouveaux caractères utiles écrit à chaque fois qu'on termine un mot
+    // On concatène cette liste à la liste des caractères utiles dans la classe Player
+    // On peut encuiste calculer a chaque fois le temps entre deux caractères utiles à la suite puis on calcul
 
     public static class CharStats {
         private Character c;
@@ -165,18 +190,32 @@ public class Word implements Cloneable {
 
     }
 
+    
+    /** On change l'attribut time du caractère actuel. time represente
+     *  l'heure exacte en millisecondes où on a écrit le caractère
+     * @param time
+     */
     public void setTimeActualChar(long time) {
         int index = indexActualChar();
         if(index != -1)
             stats.charSeq.get(index).time = time;
     }
 
+    /*
+     * Permet de mettre l'attribut erased du caractère actuel à true.
+     * Ceci est important pour faire le calcul des statistiques. En effet,
+     * un caractère bien tapé ne compte pas si il a été effacé
+     */
     public void erasedActualChar() {
         int index = indexActualChar();
         if(index != -1)
             stats.charSeq.get(index).erased = true;
     }
 
+    
+    /** Permet de recupérer l'index du dernier caractère écrit
+     * @return int
+     */
     private int indexActualChar() {
         int index = pushContent.length() - 1;
         if(index < 0 || index >= content.length())
@@ -184,10 +223,18 @@ public class Word implements Cloneable {
         return index;
     }
 
+    
+    /** 
+     * @return WordStats
+     */
     public WordStats getWordStats() {
         return stats.clone();
     }
 
+    
+    /** 
+     * @return Word
+     */
     public Word clone() {
         return new Word(this);
     }

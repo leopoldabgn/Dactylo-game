@@ -143,7 +143,8 @@ public final class Window extends JFrame {
 						// Utils.log("Erros:"+actualWord.getWordStats().nbErrors());
 						// On passe au suivant et on modifie les stats
 						gameView.nextWord();
-
+						// Si besoin, on retire un certain nombre de mots déjà écrit pour laisser plus de place dans la zone de texte
+						gameView.removeUselessWords();
 						break;
 					case KeyEvent.VK_BACK_SPACE:
 						actualWord.erasedActualChar(); // Important de le faire avant le removeLetter()

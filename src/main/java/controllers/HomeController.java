@@ -11,7 +11,7 @@ import model.Game.GameType;
 import utils.Utils;
 import view.Window;
 
-public class HomeController {
+public final class HomeController {
 
   /**
    * Call Window.java to update GUI with new Game created

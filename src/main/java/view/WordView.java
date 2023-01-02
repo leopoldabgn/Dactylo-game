@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 
 import model.Word;
 
-public class WordView extends JLabel {
+public final class WordView extends JLabel {
 
     public static final String FILL_COLOR  = "#000",
                                EMPTY_COLOR = "#888",
