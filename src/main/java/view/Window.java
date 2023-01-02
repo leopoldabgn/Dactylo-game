@@ -21,8 +21,7 @@ import model.Game;
 import model.MultiplayerGame;
 import model.NormalGame;
 import model.Player;
-import model.Game.GameType;
-import utils.Utils;
+
 
 public final class Window extends JFrame {
 	// Palette reference: https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
@@ -75,7 +74,6 @@ public final class Window extends JFrame {
 				setNormalMode(game);
 				break;
 			case CHALLENGE:
-				Utils.log("Here");
 				setChallengeMode(game);
 				break;
 			default:
@@ -178,6 +176,9 @@ public final class Window extends JFrame {
 				if (actualWord.getWordStats().nbGoodChars() == actualWord.getWordStats().getWordSize()) {
 					gameView.getInfosBox().addWord();
 					gameView.getGame().updateLevel();
+					if(actualWord.getWord().isSpecial()) {
+						gameView.getGame().getActualPlayer().updateLife(actualWord.getWord().getWordStats().getWordSize(), true);
+					}
 				}
 			}
 		});

@@ -8,6 +8,7 @@ public class Word implements Cloneable {
     private String content, pushContent;
     private boolean validate;
     private WordStats stats;
+    private boolean special = false;
 
     public Word(String content) {
         this.content = content;
@@ -75,6 +76,14 @@ public class Word implements Cloneable {
 
     public void validate() {
         this.validate = true;
+    }
+
+    public boolean isSpecial() {
+        return special;
+    }
+
+    public void setSpecial(boolean special) {
+        this.special = special;
     }
 
     public class WordStats implements Cloneable {

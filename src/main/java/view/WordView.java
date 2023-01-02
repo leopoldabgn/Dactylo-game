@@ -13,6 +13,10 @@ public class WordView extends JLabel {
 
     private Word word;
 
+    public Word getWord() {
+        return word;
+    }
+
     public WordView(Word word) {
         super(word.getContent());
         this.word = word;
@@ -35,7 +39,7 @@ public class WordView extends JLabel {
      * @param pushText
      */
     public void setColoredText(String pushText) {
-        String coloredLabel = getColoredLabel(word.getContent(), pushText);
+        String coloredLabel = getColoredLabel(word, word.getContent(), pushText);
         setText(coloredLabel);
         revalidate();
         repaint();
@@ -46,7 +50,7 @@ public class WordView extends JLabel {
      * @param pushWord
      * @return String
      */
-    public static String getColoredLabel(String word, String pushWord) {
+    public static String getColoredLabel(Word w, String word, String pushWord) {
         int len = word.length(),
             pushLen = pushWord.length();
         String res = "";
@@ -59,8 +63,15 @@ public class WordView extends JLabel {
             res += getColoredString(""+pushChar, word.charAt(i) == pushChar ? FILL_COLOR : ERROR_COLOR);
         }
 
-        if(pushLen-1 < len)
-            res += getColoredString(word.substring(pushLen, len), EMPTY_COLOR);
+        if(pushLen-1 < len) {
+            if(w.isSpecial()) {
+                res += getColoredString(word.substring(pushLen, len), "#118AB2");
+            }else {
+                res += getColoredString(word.substring(pushLen, len), EMPTY_COLOR);
+            }
+        }
+
+            
 
         return "<html>"+res+"</html>";
     }

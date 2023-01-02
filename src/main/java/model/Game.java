@@ -36,7 +36,8 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
    */
   public Game(String pathToData, ArrayList<Player> players, GameType type) {
     // this.pathToData = pathToData;
-    this.wordQueue = new WordQueue(pathToData);
+    boolean add_special = (type == GameType.CHALLENGE )? true : false;
+    this.wordQueue = new WordQueue(pathToData, add_special);
     deepCopy(players);
     actualWord = wordQueue.getQueue().peek();
     this.infos = Infos.empty();

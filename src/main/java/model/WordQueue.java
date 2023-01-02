@@ -9,16 +9,19 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 public class WordQueue {
 
     private Queue<Word> queue = new LinkedList<>();
     private Iterator<String> dataSource;
     private int MAX_SIZE = 15;
+    private boolean add_special = false;
     
     
-    public WordQueue(String dataPath) {
+    public WordQueue(String dataPath, boolean add_special) {
         this.dataSource = (Iterator<String>) createIterable(dataPath);
+        this.add_special = add_special;
         startQueue();
     }
     
@@ -80,10 +83,21 @@ public class WordQueue {
     public Word add() {
         if(this.queue.size() < this.MAX_SIZE) {
             Word new_word = new Word(this.dataSource.next());
+            if(add_special) {
+                if(oneTenthChance()) {
+                    new_word.setSpecial(true);
+                }
+            }
             this.queue.add(new_word);
             return new_word;
         }
         return null;
+    }
+
+
+    public static boolean oneTenthChance() {
+        Random rand = new Random();
+        return rand.nextInt(10) == 0;
     }
 
     // Copie necessaire ici ?
@@ -102,12 +116,12 @@ public class WordQueue {
         return res;
     }
     
-    public static void main(String[] args) {
-        String pathToFile = "src/main/resources/sample.txt";
-        WordQueue wq = new WordQueue(pathToFile);
-        // System.out.println("\nQueue: "+wq+"\n");
-        wq.poll();
-        // System.out.println("Queue: "+wq+"\n");
-    }
+    // public static void main(String[] args) {
+    //     String pathToFile = "src/main/resources/sample.txt";
+    //     WordQueue wq = new WordQueue(pathToFile, false);
+    //     // System.out.println("\nQueue: "+wq+"\n");
+    //     wq.poll();
+    //     // System.out.println("Queue: "+wq+"\n");
+    // }
 
 } 
