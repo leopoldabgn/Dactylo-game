@@ -16,8 +16,10 @@ public class StatController {
     GameType gt = game.getType();
     Game new_game = GameFactory.getGame(gt, "src/main/resources/sample.txt", players);
     win.setGameView(new_game);
+    
     // Utils.log("Play Pressed!");
     Utils.log("Game Info : "+ new_game.toString());
+    // Utils.log("player lifes: "+ players.get(0).getLifes());
   }
 
   public void menuPressed(Window win, Game game) {

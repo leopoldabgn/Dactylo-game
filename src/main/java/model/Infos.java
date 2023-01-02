@@ -1,15 +1,21 @@
 package model;
 
+import model.Game.GameType;
+
 public final class Infos implements Cloneable {
     
     private int nbWords; // Le nombre de mots tapés
     private long startTime = -1, duration = -1, endTime = -1; // Le temps en millisecondes
+    private int lifes;
+    private GameType type = GameType.NORMAL;
 
     private Infos() {}
 
-    private Infos(int nbWords, long duration) {
+    private Infos(int nbWords, long duration, int lifes, GameType type) {
         this.nbWords = nbWords;
         this.duration = duration;
+        this.lifes = lifes;
+        this.type = type; 
     }
 
     public static Infos empty() {
@@ -20,8 +26,17 @@ public final class Infos implements Cloneable {
         this.nbWords = nbWords;
     }
 
+
+    public void setLifes(int lifes) {
+        this.lifes = lifes;
+    }
+
     public int nbWords() {
         return nbWords;
+    }
+
+    public int getLifes() {
+        return lifes;
     }
 
     public void setStartTime() {
@@ -59,8 +74,16 @@ public final class Infos implements Cloneable {
         return duration;
     }
 
+    public GameType getType() {
+        return type;
+    }
+
+    public void setType(GameType type) {
+        this.type = type;
+    }
+
     public Infos clone() {
-        return new Infos(nbWords, duration);
+        return new Infos(nbWords, duration, lifes, type);
     }
 
 }

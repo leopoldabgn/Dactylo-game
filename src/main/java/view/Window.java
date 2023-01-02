@@ -21,6 +21,8 @@ import model.Game;
 import model.MultiplayerGame;
 import model.NormalGame;
 import model.Player;
+import model.Game.GameType;
+import utils.Utils;
 
 public final class Window extends JFrame {
 	// Palette reference: https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
@@ -60,7 +62,6 @@ public final class Window extends JFrame {
 		// On remet à zero gameView
 		gameView = null;
 		this.getContentPane().removeAll();
-
 		this.getContentPane().add(new HomeView(this));
 		revalidate();
 		repaint();
@@ -72,6 +73,10 @@ public final class Window extends JFrame {
 		switch (game.getType()) {
 			case NORMAL:
 				setNormalMode(game);
+				break;
+			case CHALLENGE:
+				Utils.log("Here");
+				setChallengeMode(game);
 				break;
 			default:
 				setNormalMode(game);
@@ -91,13 +96,17 @@ public final class Window extends JFrame {
 
 	public void setNormalMode(Game game) {
 		this.getContentPane().removeAll();
+		gameView = new GameView(this, game);
+		this.getContentPane().add(gameView);
+		// setNormalModeKeyListener();
+		revalidate();
+		repaint();
+		requestFocus();
+	}
 
-		// // TEMPORARY: Pour le moment je mets un fake player
-		// /////////////
-		// var players = new ArrayList<>(Arrays.asList(new Player("leopold", 0)));
-		// var game = GameFactory.getGame(GameType.NORMAL, "src/main/resources/sample.txt", players);
-		// /////////////
-		
+
+	public void setChallengeMode(Game game) {
+		this.getContentPane().removeAll();		
 		gameView = new GameView(this, game);
 		this.getContentPane().add(gameView);
 		// setNormalModeKeyListener();
@@ -111,12 +120,13 @@ public final class Window extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				super.keyPressed(e);
-				if(!isMode("NORMAL"))
+				if(!isMode("NORMAL") && !isMode("GAME"))
 					return;
 				// On lance le timer si besoin
+			
 				if(!gameView.isRunning())
 					gameView.startTimer();
-
+			
 				WordView actualWord = gameView.getActualWord();
 				Player player = gameView.getActualPlayer();
 				switch(e.getKeyChar()) {
@@ -124,13 +134,17 @@ public final class Window extends JFrame {
 						// ICI: - on vérifie si le mot est bien tapé (pas besoin car déjà fait dans Word.WordStats)
 						// - Si oui on récupère la liste des caractères utiles de ce mot
 						// - Enfin, on ajoute cette liste à celle dans Player: player.addGoodChars(<maliste>)
-
 						player.concatToGoodChars(actualWord.getWordStats().getGoodChars());
 						// On valide le mot actuel.
 						actualWord.validate();
-						wordsFullyvalidated(actualWord); // Temp
+						wordsFullyvalidated(actualWord); 
+						player.updateLife(actualWord.getWordStats().nbErrors(), false);
+						gameView.getInfosBox().setLifes(player.getLifes());
+						// Utils.log("Player lifes: "+ player.getLifes());
+						// Utils.log("Erros:"+actualWord.getWordStats().nbErrors());
 						// On passe au suivant et on modifie les stats
 						gameView.nextWord();
+
 						break;
 					case KeyEvent.VK_BACK_SPACE:
 						actualWord.erasedActualChar(); // Important de le faire avant le removeLetter()

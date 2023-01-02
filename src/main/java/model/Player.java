@@ -10,6 +10,7 @@ public class Player {
   private Stats playerStats;
   private ArrayList<Word.CharStats> goodChars; // Les caractères utiles écrit dans currentGame
   private long nbKeysPressed = 0;
+  private int lifes = 20;
 
   public Player(String name, int points) {
     this.name = name;
@@ -83,6 +84,20 @@ public class Player {
     return nbKeysPressed;
   }
 
+
+  public int getLifes() {
+    return lifes;
+  }
+
+  public void updateLife(int number, boolean add) {
+    if(add) {
+      this.lifes += number;
+    }else {
+      this.lifes -= number;
+    }
+  }
+
+
   /** 
    * @return String
    */
@@ -102,7 +117,9 @@ public class Player {
     this.setPoints(0);
     this.goodChars = new ArrayList<>();
     this.nbKeysPressed = 0;
+    this.lifes = 20;
     this.updatePlayerStats();
+    
   }
 
 }

@@ -21,6 +21,7 @@ import model.Game;
 import model.Player;
 import model.Word;
 import model.WordQueue;
+import model.Game.GameType;
 
 public final class GameView extends JPanel implements ActionListener {
 
@@ -202,7 +203,14 @@ public final class GameView extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         infosBox.refreshTimeLeft();
-        // 
+        if(this.game.getType() == GameType.CHALLENGE) {
+            if(this.game.getActualPlayer().getLifes() <= 0) {
+                game.getActualPlayer().updatePlayerStats();
+                win.setStatsView(game);
+                game.getInfos().setEndTime();
+                timer.stop();
+            }
+        }
         if(game.getInfos().getTimeLeft() == 0) {
             game.getInfos().setEndTime();
             timer.stop();
@@ -210,6 +218,7 @@ public final class GameView extends JPanel implements ActionListener {
             game.getActualPlayer().updatePlayerStats();
             win.setStatsView(game);
         }
+        
     }
 
     public long getTime() {

@@ -8,12 +8,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Infos;
+import model.Game.GameType;
 
 public final class InfosBox extends JPanel {
     
     private Infos infos;
     private JLabel time = Window.getJLabel("", 15, new Color(124, 181, 24)),
-                   nbWords = Window.getJLabel("", 15, new Color(251, 97, 7));
+                   nbWords = Window.getJLabel("", 15, new Color(251, 97, 7)), lifes = Window.getJLabel("", 15, new Color(124, 181, 24));
 
     public InfosBox(Infos infos) {
         setOpaque(false);
@@ -21,9 +22,14 @@ public final class InfosBox extends JPanel {
 
         setTimeLeft((int)(infos.getDuration() / 1000));
         setNbWords(infos.nbWords());
+        setLifes(this.infos.getLifes());
 
         this.setLayout(new GridLayout(1, 2));
-        this.add(Window.getPanel(0, new FlowLayout(), time));
+        if(infos.getType() == GameType.CHALLENGE) {
+            this.add(Window.getPanel(0, new FlowLayout(), lifes));
+        }else {
+            this.add(Window.getPanel(0, new FlowLayout(), time));
+        }
         this.add(Window.getPanel(0, new FlowLayout(), nbWords));
     }
 
@@ -43,6 +49,11 @@ public final class InfosBox extends JPanel {
     public void setNbWords(int nbWords) {
         infos.setNbWords(nbWords);
         this.nbWords.setText(nbWords + " words");
+    }
+
+    public void setLifes(int lifes) {
+        infos.setLifes(lifes);
+        this.lifes.setText(lifes + " lifes");
     }
 
     public void setStartTime() {

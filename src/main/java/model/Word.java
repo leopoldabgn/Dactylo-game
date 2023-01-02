@@ -106,7 +106,8 @@ public class Word implements Cloneable {
          */
         public int nbErrors() {
             // TODO: Il faut calculer la distance d'édition entre deux mots
-            return 0;
+            // TEMP:
+            return this.charSeq.size() -  this.nbGoodChars() ;
         }
 
         public List<CharStats> getGoodChars() {
