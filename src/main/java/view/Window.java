@@ -140,6 +140,7 @@ public final class Window extends JFrame {
 						wordsFullyvalidated(actualWord); 
 						player.updateLife(actualWord.getWordStats().nbErrors(), false);
 						gameView.getInfosBox().setLifes(player.getLifes());
+						gameView.getInfosBox().setLevel(gameView.getGame().getLevel());
 						// Utils.log("Player lifes: "+ player.getLifes());
 						// Utils.log("Erros:"+actualWord.getWordStats().nbErrors());
 						// On passe au suivant et on modifie les stats
@@ -176,6 +177,7 @@ public final class Window extends JFrame {
 			private void wordsFullyvalidated(WordView actualWord) {
 				if (actualWord.getWordStats().nbGoodChars() == actualWord.getWordStats().getWordSize()) {
 					gameView.getInfosBox().addWord();
+					gameView.getGame().updateLevel();
 				}
 			}
 		});

@@ -20,9 +20,9 @@ public class HomeController {
    * @param radioButtonChallenge
    * @param radioButtonMP
    */
-  public void playPressed(Window win, JTextField playerNameInput, JRadioButton radioButtonNormal, JRadioButton radioButtonChallenge, JRadioButton radioButtonMP) {
+  public void playPressed(Window win, JTextField playerNameInput, JRadioButton radioButtonNormal, JRadioButton radioButtonChallenge) {
     String playerName = playerNameInput.getText();
-    GameType gameType = getGameType(radioButtonNormal, radioButtonChallenge, radioButtonMP);
+    GameType gameType = getGameType(radioButtonNormal, radioButtonChallenge);
     
     Player player = new Player(playerName, 0);
     ArrayList<Player> players = new ArrayList<>();
@@ -39,7 +39,7 @@ public class HomeController {
    * @param radioButtonMP
    * @return GameType
    */
-  private GameType getGameType(JRadioButton radioButtonNormal, JRadioButton radioButtonChallenge, JRadioButton radioButtonMP) {
+  private GameType getGameType(JRadioButton radioButtonNormal, JRadioButton radioButtonChallenge) {
     if(radioButtonNormal.isSelected()) {
       return GameType.NORMAL;
     }else if(radioButtonChallenge.isSelected()) {

@@ -8,6 +8,8 @@ public final class Infos implements Cloneable {
     private long startTime = -1, duration = -1, endTime = -1; // Le temps en millisecondes
     private int lifes;
     private GameType type = GameType.NORMAL;
+    private int wordLevelRef;
+    private int level = 1;
 
     private Infos() {}
 
@@ -25,7 +27,6 @@ public final class Infos implements Cloneable {
     public void setNbWords(int nbWords) {
         this.nbWords = nbWords;
     }
-
 
     public void setLifes(int lifes) {
         this.lifes = lifes;
@@ -48,6 +49,28 @@ public final class Infos implements Cloneable {
             this.endTime = getTime();
         else
             this.endTime = duration - getTimeLeft();
+    }
+
+
+    public int getWordLevelRef() {
+        return wordLevelRef;
+    }
+
+    public void updateWordLevelRef() {
+        if(this.wordLevelRef == 5) {
+            this.wordLevelRef = 0;
+        }else {
+            this.wordLevelRef+=1;
+        }
+        
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public long getTime() {

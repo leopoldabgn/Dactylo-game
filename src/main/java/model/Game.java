@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import utils.Utils;
+
 public abstract sealed class Game permits NormalGame, ChallengeGame, MultiplayerGame {
   private WordQueue wordQueue;
   private Word actualWord;
@@ -11,6 +13,7 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
   private GameType type;
   private static int gameCounter = 0;
   private final int gameId;
+  private int level = 1;
   // private String pathToData;
 
   public enum GameType {
@@ -103,6 +106,24 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
    */
   public int getGameId() {
     return gameId;
+  }
+
+
+  public int getLevel() {
+    return level;
+  }
+
+  public void setLevel(int level) {
+    this.level = level;
+  }
+
+  public void updateLevel() {
+    // Utils.log(""+this.infos.getWordLevelRef());
+    if(this.infos.getWordLevelRef() == 5) {
+      this.level += 1;
+      // this.infos.setLevel(this.level);
+      // Utils.log("Update level: "+this.level);
+    }
   }
 
   // public void reset() {

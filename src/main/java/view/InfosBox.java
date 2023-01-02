@@ -14,7 +14,9 @@ public final class InfosBox extends JPanel {
     
     private Infos infos;
     private JLabel time = Window.getJLabel("", 15, new Color(124, 181, 24)),
-                   nbWords = Window.getJLabel("", 15, new Color(251, 97, 7)), lifes = Window.getJLabel("", 15, new Color(124, 181, 24));
+                   nbWords = Window.getJLabel("", 15, new Color(251, 97, 7)),
+                   lifes = Window.getJLabel("", 15, new Color(124, 181, 24)),
+                   level = Window.getJLabel("", 15, new Color(239, 71, 111));
 
     public InfosBox(Infos infos) {
         setOpaque(false);
@@ -23,10 +25,12 @@ public final class InfosBox extends JPanel {
         setTimeLeft((int)(infos.getDuration() / 1000));
         setNbWords(infos.nbWords());
         setLifes(this.infos.getLifes());
+        setLevel(this.infos.getLevel());
 
         this.setLayout(new GridLayout(1, 2));
         if(infos.getType() == GameType.CHALLENGE) {
             this.add(Window.getPanel(0, new FlowLayout(), lifes));
+            this.add(Window.getPanel(0, new FlowLayout(), level));
         }else {
             this.add(Window.getPanel(0, new FlowLayout(), time));
         }
@@ -38,6 +42,7 @@ public final class InfosBox extends JPanel {
      * et de mettre à jour le JLabel
      */
     public void addWord() {
+        infos.updateWordLevelRef();
         setNbWords(infos.nbWords() + 1);
         // Utils.log("addWord()");
     }
@@ -54,6 +59,11 @@ public final class InfosBox extends JPanel {
     public void setLifes(int lifes) {
         infos.setLifes(lifes);
         this.lifes.setText(lifes + " lifes");
+    }
+
+    public void setLevel(int level) {
+        infos.setLevel(level);
+        this.level.setText(level + " level");
     }
 
     public void setStartTime() {

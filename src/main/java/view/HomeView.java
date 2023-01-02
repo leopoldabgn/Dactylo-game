@@ -16,7 +16,7 @@ public final class HomeView extends JPanel{
   private JTextField playerNameInput;
   private JRadioButton radioButtonNormal;
   private JRadioButton radioButtonChallenge;
-  private JRadioButton radioButtonMP;
+  // private JRadioButton radioButtonMP;
   // HomeController
   private HomeController homeController = new HomeController();
 
@@ -134,7 +134,7 @@ public final class HomeView extends JPanel{
     playButton.setBackground(new Color(0, 0, 0));
     playButton.setFocusPainted(false);
     playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    playButton.addActionListener((event) -> this.homeController.playPressed(this.window, this.playerNameInput, this.radioButtonNormal, this.radioButtonChallenge, this.radioButtonMP));
+    playButton.addActionListener((event) -> this.homeController.playPressed(this.window, this.playerNameInput, this.radioButtonNormal, this.radioButtonChallenge));
     // playButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     panelWrapper.add(playButton);
     panelWrapper.setOpaque(false);
@@ -156,18 +156,18 @@ public final class HomeView extends JPanel{
     gameModeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     
     this.radioButtonNormal = new JRadioButton("normal");
-    this.radioButtonMP = new JRadioButton("multiplayer");
+    // this.radioButtonMP = new JRadioButton("multiplayer");
     this.radioButtonChallenge = new JRadioButton("challenge");
     
     ButtonGroup buttonGroup = new ButtonGroup();
     buttonGroup.add(getRadioButton(this.radioButtonNormal, 15, true));
-    buttonGroup.add(getRadioButton(this.radioButtonMP, 15, false));
+    // buttonGroup.add(getRadioButton(this.radioButtonMP, 15, false));
     buttonGroup.add(getRadioButton(this.radioButtonChallenge, 15, false));
     
     panelWrapper.add(gameModeLabel);
     panelWrapper.add(this.radioButtonNormal);
     panelWrapper.add(this.radioButtonChallenge);
-    panelWrapper.add(this.radioButtonMP);
+    // panelWrapper.add(this.radioButtonMP);
     //panelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
 
     return panelWrapper;
