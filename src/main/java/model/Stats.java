@@ -18,37 +18,55 @@ public final class Stats {
   */
   private double words_per_minute;
   private double precision;
-  private long frequency;
+  private double frequency;
 
-  private Stats(double wpm, double precision, long frequency) {
+  private Stats(double wpm, double precision, double frequency) {
     this.words_per_minute = wpm;
     this.precision = precision;
     this.frequency = frequency;
   }
 
+  
+  /** 
+   * @param game
+   * @param player
+   * @return Stats
+   */
   public static Stats createStats(Game game, Player player) {
     return new Stats(computeWPM(game, player), computePrecision(game, player), computeFrequency(game, player));
   }
 
-  // En millisecondes
-  private static long computeFrequency(Game game, Player player) {
-    ArrayList<Long> durations = getDurationsBetween2Chars(player.getGoodChars());
+  
+  /** 
+   * @param game
+   * @param player
+   * @return double
+   */
+  // En secondes
+  private static double computeFrequency(Game game, Player player) {
+    ArrayList<Double> durations = getDurationsBetween2Chars(player.getGoodChars());
     // System.out.println(durations);
     if(durations.isEmpty())
       return 0;
     // On calcul l'écart type de notre série statistique (les durées entre deux chars utiles)
     double average = average(durations);
     double result = 0;
-    for(Long d : durations) {
+    for(Double d : durations) {
       double val = Math.abs(d - average);
       val *= val;
       result += val;
     }
     result /= durations.size();
     result = Math.sqrt(result);
-    return (long)Math.round(result);
+    return BigDecimal.valueOf(result).setScale(2, RoundingMode.HALF_UP).doubleValue();
   }
 
+  
+  /** 
+   * @param game
+   * @param player
+   * @return double
+   */
   private static double computePrecision(Game game, Player player) {
     if(player.nbKeysPressed() == 0)
       return 0;
@@ -56,6 +74,12 @@ public final class Stats {
     return BigDecimal.valueOf(precision).setScale(2, RoundingMode.HALF_UP).doubleValue();
   }
 
+  
+  /** 
+   * @param game
+   * @param player
+   * @return double
+   */
   private static double computeWPM(Game game, Player player) {
     double time = game.getInfos().getTime(); // temps en milliseconde
     time = (time / 1_000) / 60; // On convertit en secondes, puis en minutes
@@ -63,30 +87,53 @@ public final class Stats {
     return BigDecimal.valueOf(wpm).setScale(2, RoundingMode.HALF_UP).doubleValue();
   }
 
-  private static ArrayList<Long> getDurationsBetween2Chars(List<CharStats> chars) {
-    ArrayList<Long> durations = new ArrayList<>();
+  
+  /** 
+   * @param chars
+   * @return ArrayList<Double>
+   */
+  private static ArrayList<Double> getDurationsBetween2Chars(List<CharStats> chars) {
+    ArrayList<Double> durations = new ArrayList<>();
     for(int i=0;i<chars.size()-1;i++) {
       CharStats c1 = chars.get(i);
       CharStats c2 = chars.get(i+1);
-      durations.add(c2.getTime() - c1.getTime());
+      // On converti le temps en seconde
+      durations.add((double)(c2.getTime() - c1.getTime()) / 1000);
     }
     return durations;
   }
 
-  private static double average(List<Long> numbers) {
+  
+  /** 
+   * @param numbers
+   * @return double
+   */
+  private static double average(List<Double> numbers) {
     OptionalDouble average = numbers.stream().mapToDouble(x -> x).average();
     return average.isPresent() ? average.getAsDouble() : 0; 
   }
 
+  
+  /** 
+   * @return double
+   */
   public double getWords_per_minute() {
     return words_per_minute;
   }
 
+  
+  /** 
+   * @return double
+   */
   public double getPrecision() {
     return precision;
   }
 
-  public long getFrequency() {
+  
+  /** 
+   * @return double
+   */
+  public double getFrequency() {
     return frequency;
   }
 
