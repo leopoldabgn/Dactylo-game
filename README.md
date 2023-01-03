@@ -53,15 +53,61 @@ Le temps restant est affiché en bas à gauche avec le nombre de mots tapés. Le
 *Voici un exemple de déroulement d'un partie*
 
 ### Challenge Mode
-Le page du mode challenge est assez simlaire à celle du mode normal. Mais il y a tout de même plusieurs changements. Cette fois, les mots arrivent avec une certaine vitesse qui augmente au fil des niveaux. Tous les 100 mots, le niveau augmente et les mots arrivent de plus en plus vite (selon cette fonction 3 * 0.9^n). Le joueur dispose tout de même de plusieurs en cas d'échec, pour pouvoir continuer la partie. Voici comment sont disposés les différents éléments :
+Le page du mode challenge est assez similaire à celle du mode normal. Mais il y a tout de même plusieurs changements. Cette fois, les mots arrivent avec une certaine vitesse qui augmente au fil des niveaux. Tous les 100 mots, le niveau augmente et les mots arrivent de plus en plus vite (selon cette fonction 3 * 0.9^n). Le joueur dispose tout de même de plusieurs en cas d'échec, pour pouvoir continuer la partie. Voici comment sont disposés les différents éléments :
 - Le niveau et le nombre de vie du joueur sont affichées en bas à gauche de l'écran
 - Le nombre de mots écrits est également affiché
 
-[TODO: METTRE UNE IMAGE]
-*Voici un exemple de déroulement d'un partie*
+![Mode Challenge](readme_resources/challenge_mode_in_progress.png)
+*Voici un exemple de déroulement d'une partie avec le mode Challenge*
 
 ### Multiplayer Mode
 Nous n'avons malheureusement pas eu le temps d'implémenter cette fonctionnalité. Peut être plus tard ?
 
 ### Fin de partie (Stats)
 
+
+## Implémentation
+
+### Model
+
+
+
+### GUI
+Nous avons décidé de faire l'interface graphique avec la librairie **Java Swing**.
+
+Tout d'abord, l'intégralité des classes pour l'interface graphique ont été placé dans un package **view**. On y retrouve plusieurs classes tels que:
+- Window
+- HomeView
+- GameView
+- StatsView
+
+#### Window
+La classe Window est celle qui permet d'ouvrir une fenêtre pour notre jeu. Elle hérite de **JFrame**. On y place ensuite à l'intérieur des **JPanel**. Chaque JPanel correspond à une page pour notre jeu, on a notamment:
+- HomeView: La page d'accueil
+- GameView: La page de Jeu, qui s'adapte selon le type de "Game" passé en paramètre (NormalGame, ChallengeGame, MultiplayerGame)
+- StatsView: La page des statistiques (après une partie)
+
+Chacune de ces classes a donc une instance de **Window** pour pouvoir passer d'une page à une autre facilement (setHomeView, setNormalMode...)
+
+Enfin, cette classe gère également l'appuie des touches du clavier à l'aide d'un **KeyAdapter** où on a pu redefinir la méthode **keyPressed(KeyEvent e)**.
+Pour que cette méthode fonctionne, nous devons toujours retenir une instance de **GameView** qui représente le page du jeu en cours. On peut alors vérifier au début de **keyPressed** de quel jeu il s'agit et donc adapter la réaction des touches selon le type de jeu.
+
+#### HomeView
+La classe **HomeView** est une classe de la **view**. Cette classe représente la page d'accueil. L'utilisateur peut alors choisir un mode de jeu et lancer la partie.
+
+#### GameView
+**GameView** est la classe qui permet d'afficher le jeu actuel (Normal ou Challenge). Cette classe est relié en permanence à son model (**Game**). Toute modification du jeu à travers **GameView** est tout de suite repercuté sur son model. Cela pourrait nous permettre d'implémenter l'interface **Serializable** sur la classe **Game** et d'enregistrer notre partie (notre objet model Game) facilement. Nous avons d'ailleurs toujours fait attention à bien séparer le modèle, vue tout au long du projet.
+
+Dans **GameView** se trouve notamment la classe **GameTextArea**. C'est un JPanel
+qui vient se placer au milieu de l'écran et qui affiche les prochains mots à écrire. 
+
+Cette classe contient plusieurs attributs notables:
+- Queue<WordView> wordViewQueue: la queue des mots qu'on vient ajouter au JPanel (méthode **add**)
+- WordView actualWord: Le mot actuel, celui sur lequel nous sommes en train d'écrire
+
+#### StatsView
+
+
+### Remarques diverses
+- sealed permits
+- fabriques static
