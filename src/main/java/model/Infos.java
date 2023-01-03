@@ -98,14 +98,8 @@ public final class Infos implements Cloneable {
     }
 
     public void updateWordLevelRef() {
-        if(this.wordLevelRef >= 5) { // TODO: ATTENTION: changer cette valeur en "100"
-            this.wordLevelRef = 0;
-        }else {
-            this.wordLevelRef+=1;
-        }
-        
+        wordLevelRef = wordLevelRef >= 100 ? 0 : wordLevelRef+1;
     }
-
     
     /** 
      * @return double

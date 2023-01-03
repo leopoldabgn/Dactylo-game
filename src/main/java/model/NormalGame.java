@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public final class NormalGame extends Game {
 
-  public NormalGame(String pathToData, ArrayList<Player> players) {
-    super(pathToData, players, GameType.NORMAL);
+  public NormalGame(ArrayList<Player> players) {
+    super(players, GameType.NORMAL);
     init();
     
   }

@@ -48,15 +48,14 @@ ________________________________________________
 ![Normal mode](readme_resources/normal_mode.png)
 Sur la page du mode normal, le **nom du joueur** est affiché en haut à gauche, ainsi que le **type de jeu** en haut à droite (de même dans le *Challenge Mode*). Au centre se trouve la zone de texte qui va contenir les prochains mots à écrire. Vous allez alors devoir écrire un maximum de mots dans le temps imparti.
 
-Le temps restant est affiché en bas à gauche avec le nombre de mots tapés. Le partie (et donc le chronomètre) ne démarre que lorsque vous commencez à écrire le premier mot de la file. Les prochains apparaissent alors *en gris*, les erreurs *en rouges* et les lettres correctes *en noirs*.
+Le temps restant est affiché en bas à gauche avec le nombre de mots tapés. Le partie (et donc le chronomètre) ne démarre que lorsque vous commencez à écrire le premier mot de la file. Les prochains mots apparaissent alors *en gris*, les erreurs *en rouges* et les lettres correctes *en noirs*.
 ![Exemple partie en mode normal](readme_resources/normal_mode_in_progress.png)
 *Voici un exemple de déroulement d'un partie*
 
 ### Challenge Mode
-Le page du mode challenge est assez simlaire à celle du mode normal. Mais il y a tout de même plusieurs changements. Cette fois, les mots arrivent avec une certaine vitesse qui au augmente au fil des niveaux. Tous les (TODO) mots, le niveau augmente et les mots arrivent de plus en plus vite. Le joueur dispose tout de même de plusieurs en cas d'échec, pour pouvoir continuer la partie. Voici comment sont disposés les différents éléments :
-- Le niveau du joueur est indiqué (TODO...)
-- Le nombre de vie du joueur sont affichées (TODO:...)
-- La vitesse du jeu est indiquée (TODO...)
+Le page du mode challenge est assez simlaire à celle du mode normal. Mais il y a tout de même plusieurs changements. Cette fois, les mots arrivent avec une certaine vitesse qui augmente au fil des niveaux. Tous les 100 mots, le niveau augmente et les mots arrivent de plus en plus vite (selon cette fonction 3 * 0.9^n). Le joueur dispose tout de même de plusieurs en cas d'échec, pour pouvoir continuer la partie. Voici comment sont disposés les différents éléments :
+- Le niveau et le nombre de vie du joueur sont affichées en bas à gauche de l'écran
+- Le nombre de mots écrits est également affiché
 
 [TODO: METTRE UNE IMAGE]
 *Voici un exemple de déroulement d'un partie*

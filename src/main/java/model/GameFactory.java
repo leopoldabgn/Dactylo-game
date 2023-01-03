@@ -11,14 +11,14 @@ public final class GameFactory {
    * @param players
    * @return Game
    */
-  public static Game getGame(GameType type, String data, ArrayList<Player> players) {
+  public static Game getGame(GameType type, ArrayList<Player> players) {
     switch (type) {
       case MP:
-        return new MultiplayerGame(data, players);
+        return new MultiplayerGame(players);
       case CHALLENGE:
-        return new ChallengeGame(data, players);
+        return new ChallengeGame(players);
       default:
-        return new NormalGame(data, players);
+        return new NormalGame(players);
     }
   }
 }
