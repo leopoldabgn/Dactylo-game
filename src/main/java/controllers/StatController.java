@@ -9,6 +9,11 @@ import model.Game.GameType;
 import utils.Utils;
 import view.Window;
 
+/**
+The StatController class is a final class that contains methods to
+reset the game data and return to the home screen.
+*/
+
 public final class StatController {
   public void playPressed(Window win, Game game) {
     ArrayList<Player> players = game.getPlayers();
@@ -23,7 +28,6 @@ public final class StatController {
   }
 
   public void menuPressed(Window win, Game game) {
-    // Game.erase()
     win.setHomeView();
     // Utils.log("Menu Pressed");
   }

@@ -4,6 +4,11 @@ import javax.swing.JLabel;
 
 import model.Word;
 
+/**The WordView class extends the JLabel class and represents a view for a Word object in a typing game. It has a Word object as an attribute and is responsible for 
+ * displaying the word on the screen in a certain way. It has several methods that allow the user to update the view of the word and interact with it, such as pushLetter,
+ * removeLetter, pushContent, validate, setTimeActualChar, and erasingActualChar. It also has a setColoredText method that updates the displayed text of the word based on the current state of the word. 
+ * The class also has a getColoredLabel method that returns a string that represents the word with certain characters colored based 
+ * on whether they have been typed correctly or not. Finally, it has several constants that represent colors that are used to color the characters in the word */
 public final class WordView extends JLabel {
 
     public static final String FILL_COLOR  = "#000",
@@ -13,6 +18,10 @@ public final class WordView extends JLabel {
 
     private Word word;
 
+    
+    /** 
+     * @return Word
+     */
     public Word getWord() {
         return word;
     }
@@ -20,12 +29,8 @@ public final class WordView extends JLabel {
     public WordView(Word word) {
         super(word.getContent());
         this.word = word;
-        
         setFont(Window.getNewFont(14));
-        // Put the word in black
         setColoredText(word.getContent());
-        // Obligatoire pour changer le background color
-        // setOpaque(true); // (A remettre si besoin. Pour le moment non.)
     }
 
     /** 
@@ -85,8 +90,10 @@ public final class WordView extends JLabel {
         return "<font color="+color+">"+text+"</font>";
     }
 
-    // SHORTCUT TO WORD METHODS
-
+    
+    /** 
+     * @param letter
+     */
     public void pushLetter(char letter) {
         word.pushLetter(letter);
     }
@@ -95,6 +102,10 @@ public final class WordView extends JLabel {
         word.removeLetter();
     }
 
+    
+    /** 
+     * @param pushContent
+     */
     public void pushContent(String pushContent) {
         word.pushContent(pushContent);
     }
@@ -104,10 +115,18 @@ public final class WordView extends JLabel {
         setColoredText(word.getPushedContent());
     }
 
+    
+    /** 
+     * @return WordStats
+     */
     public Word.WordStats getWordStats() {
         return word.getWordStats();
     }
 
+    
+    /** 
+     * @param time
+     */
     public void setTimeActualChar(long time) {
         word.setTimeActualChar(time);
     }

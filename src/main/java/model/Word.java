@@ -2,7 +2,20 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * A class that represents a word in a typing game.
+ *
+ * The class has four fields: content, pushContent, validate, and stats.
+ * - content: the actual word
+ * - pushContent: the word as it has been typed so far
+ * - validate: a boolean flag indicating whether the word has been completed and is correct
+ * - stats: an instance of the inner class WordStats, which keeps track of statistics for the word
+ *
+ * The class has a constructor that takes a String representing the content of the word, and initializes the pushContent field to an empty String.
+ * It also has a private copy constructor that takes a Word and creates a new Word with the same field values.
+ *
+ * The class has two methods for modifying the pushContent field: `pushLetter` and `removeLetter`. It also has getters and setters for the content, pushContent, and special fields.
+ */
 public final class Word implements Cloneable {
 
     private String content, pushContent;
@@ -97,7 +110,17 @@ public final class Word implements Cloneable {
     public void setSpecial(boolean special) {
         this.special = special;
     }
-
+    /**
+     * An inner class of the Word class that keeps track of statistics for a word.
+     *
+     * The class has a single field, charSeq, which is a list of CharStats objects representing statistics for each character in the word.
+     *
+     * The class has a default constructor that initializes charSeq by creating a CharStats object for each character in the word.
+     * It also has a private copy constructor that takes a WordStats and creates a new WordStats with the same field values.
+     *
+     * The class has methods for calculating the number of good characters and errors in the word, as well as a method for calculating the Levenshtein distance between the word and another word.
+     * It also has a clone method that creates a copy of the object.
+     */
     public final class WordStats implements Cloneable {
 
         private ArrayList<CharStats> charSeq;
@@ -111,10 +134,11 @@ public final class Word implements Cloneable {
             this.charSeq = new ArrayList<>(stats.charSeq);
         }
 
-        /** Number of good chars in the push word in comparison with the real word.
-         *  This function can be useful to generate stats for a player in a game
-         * @return int
-         */
+        /**
+        * Number of good chars in the push word in comparison with the real word.
+        *  This function can be useful to generate stats for a player in a game
+        * @return int
+        */
         public int nbGoodChars() {
             if(content.equals(pushContent))
                 return (int)charSeq.stream().filter(c -> !c.erased).count();
@@ -130,7 +154,9 @@ public final class Word implements Cloneable {
         public int nbErrors() {
             int maxLen = Math.max(content.length(), pushContent.length());
             int dist = 0;
+            
             // On parcourt les deux mots caractère par caractère
+            
             for(int i=0;i<maxLen;i++) {
                 if(i >= content.length() || i >= pushContent.length()) {
                     dist += 1;
@@ -159,21 +185,19 @@ public final class Word implements Cloneable {
 
     }
 
-    // On retient le temps a chaque fois qu'un caractère est tapé
-    // Si un caractère est effacé on met erased à true
-    // A la fin on regarde tous les mots entièrement bien écrit
-    // Pour chacun des mots, on regarde le temps entre chaque caractère utile
-    // Sachant qu'un caractère utile est un caractère qui n'a pas été effacé et
-    // donc qui n'a pas erased à true. Il faut que erased soit faux
-
-    // On récupère les nouveaux caractères utiles écrit à chaque fois qu'on termine un mot
-    // On concatène cette liste à la liste des caractères utiles dans la classe Player
-    // On peut encuiste calculer a chaque fois le temps entre deux caractères utiles à la suite puis on calcul
+    /*
+    * Every time a character is typed, the time is recorded. If a character is erased, we set erasing to true. 
+    * At the end, we look at all the fully correctly written words. For each of these words, we look at the time between 
+    * each useful character. We know that a useful character is a character that has not been erased, so it has not been
+    * set to true. Erasing must be false. We retrieve the new useful characters written each time we finish a word. 
+    * We concatenate this list with the list of useful characters in the Player class. 
+    * We can then calculate the time between two useful characters in a row and then calculate." 
+    */
 
     public static class CharStats {
         private Character c;
-        private boolean erased; // A été effacé ou non
-        private long time; // temps entre le dernier caractère utile et lui
+        private boolean erased; 
+        private long time;
 
         public CharStats(Character c) {
             this.c = c;

@@ -10,7 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
-
+/**
+ * A class that represents a queue of words.
+ */
 public final class WordQueue {
 
     private Queue<Word> queue = new LinkedList<>();
@@ -18,7 +20,12 @@ public final class WordQueue {
     private int MAX_SIZE = 50;
     private boolean add_special = false;
     
-    
+    /**
+     * Constructs a new WordQueue.
+     *
+     * @param dataPath the path to the file to be used as the data source for the queue
+     * @param add_special a boolean indicating whether special words should be added to the queue
+     */
     public WordQueue(String dataPath, boolean add_special) {
         this.dataSource = (Iterator<String>) createIterable(dataPath);
         this.add_special = add_special;
@@ -26,7 +33,7 @@ public final class WordQueue {
     }
     
     /**
-    *  A private method that initializes the queue by adding a set number of items to it. 
+    * A private method that initializes the queue by adding a set number of items to it. 
     * @param None.
     * @return void.
     */
@@ -40,8 +47,8 @@ public final class WordQueue {
 
     /** 
      * Convert text file into Iterator. Used as a data source for the queue.
-     * @param dataPath
-     * @return Iterator<String>
+     * @param dataPath the path to the file to be used as the data source for the queue
+     * @return an Iterator of Strings
      */
     private Iterator<String> createIterable(String dataPath) {
         try {
@@ -102,7 +109,7 @@ public final class WordQueue {
     }
 
     public Queue<Word> getQueue() {
-        return new LinkedList<>(queue);
+        return queue;
     }
 
     public boolean isHalfFull() {

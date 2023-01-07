@@ -10,6 +10,10 @@ import model.Player;
 
 // COLOR PALETTE: https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51
 
+/**
+ * This class represents the statistics view of the application, which displays the user's statistics
+ * such as WPM and precision.
+ */
 public final class StatsView extends JPanel {
     private Window window;
     private Game game;
@@ -27,6 +31,10 @@ public final class StatsView extends JPanel {
     }
 
 
+    
+    /** 
+     * @return JPanel
+     */
     private JPanel getPlayerStats() {
       JPanel playerInfo = new JPanel();
       playerInfo.setLayout(new GridLayout());
@@ -37,6 +45,10 @@ public final class StatsView extends JPanel {
       return playerInfo;
     }
 
+    
+    /** 
+     * @return JPanel
+     */
     private JPanel getStatsBox() { 
       JPanel statsBox = new JPanel() {
         @Override
@@ -76,6 +88,10 @@ public final class StatsView extends JPanel {
     }
 
 
+    
+    /** 
+     * @param statsBox
+     */
     private void addStats(JPanel statsBox) {
       Player player = this.game.getActualPlayer();
       statsBox.add(Window.getPanel(0, new GridBagLayout(), getStatPanel("Frequency:", player.getPlayerStats().getFrequency()+"s")));
@@ -83,6 +99,10 @@ public final class StatsView extends JPanel {
       statsBox.add(Window.getPanel(0, new GridBagLayout(), getStatPanel("Precision:", player.getPlayerStats().getPrecision()+"%")));
     }
 
+    
+    /** 
+     * @return JPanel
+     */
     private JPanel getNorthPan() {
         JPanel north = new JPanel();
         north.setOpaque(false);
@@ -106,6 +126,10 @@ public final class StatsView extends JPanel {
         return north;
     }
 
+    
+    /** 
+     * @return JPanel
+     */
     private JPanel getSouthPan() {
         JPanel south = new JPanel();
         south.setOpaque(false);
@@ -117,6 +141,10 @@ public final class StatsView extends JPanel {
         return south;
     }
 
+    
+    /** 
+     * @return JPanel
+     */
     private JPanel getButtons() {
       JPanel panel = new JPanel();
       panel.setOpaque(false);
@@ -136,6 +164,11 @@ public final class StatsView extends JPanel {
     }
 
 
+    
+    /** 
+     * @param title
+     * @return JButton
+     */
     private JButton createButton(String title) {
       JButton playAgain = new JButton(title);
       playAgain.setFont(Window.getNewFont(15));
@@ -146,6 +179,12 @@ public final class StatsView extends JPanel {
       return playAgain;
     }
 
+    
+    /** 
+     * @param title
+     * @param value
+     * @return JPanel
+     */
     private JPanel getStatPanel(String title, String value) {
       JPanel panel = new JPanel();
       panel.setOpaque(false);

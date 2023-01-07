@@ -1,5 +1,4 @@
 # Backlog
-- [ ] JavaFX
-- [ ] WordQueue class
-- [ ] Word class
-- [ ] Compare words
+- UML Diagram
+- Junit
+- Java doc

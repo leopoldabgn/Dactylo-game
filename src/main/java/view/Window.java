@@ -23,6 +23,12 @@ import model.NormalGame;
 import model.Player;
 
 
+/**
+ * This class represents the main window of the application, which displays the different views and
+ * handles user input.
+ */
+
+
 public final class Window extends JFrame {
 	// Palette reference: https://coolors.co/palette/001219-005f73-0a9396-94d2bd-e9d8a6-ee9b00-ca6702-bb3e03-ae2012-9b2226
 
@@ -37,28 +43,17 @@ public final class Window extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		// On ajoute une marge sur les bordures du container principal
-		// On aura donc la marge sur toutes les pages
+		
 		int padding = 10;
 		((JPanel)getContentPane()).setBorder(new EmptyBorder(padding, padding, padding, padding));
-
 		getContentPane().setBackground(HomeView.backgroundColor);
-		
 		setHomeView();
-
-		//setStatsView();
-
-		// setNormalMode();
-
-		// setKeyListener();
-
 		setNormalModeKeyListener();
 
 		this.setVisible(true);
 	}
 
 	public void setHomeView() {
-		// On remet à zero gameView
 		gameView = null;
 		this.getContentPane().removeAll();
 		this.getContentPane().add(new HomeView(this));
@@ -66,9 +61,11 @@ public final class Window extends JFrame {
 		repaint();
 	}
 
-
+	
+	/** 
+	 * @param game
+	 */
 	public void setGameView(Game game) {
-		// [TODO]: to finish
 		switch (game.getType()) {
 			case NORMAL:
 				setNormalMode(game);
@@ -82,37 +79,49 @@ public final class Window extends JFrame {
 		}
 	}
 
+	
+	/** 
+	 * @param game
+	 */
 	public void setStatsView(Game game) {
-		// On remet à zero gameView
 		gameView = null;
 		this.getContentPane().removeAll();
 		this.getContentPane().add(new StatsView(this, game));
-		// setNormalModeKeyListener();
 		revalidate();
 		repaint();
 	}
 
+	
+	/** 
+	 * @param game
+	 */
 	public void setNormalMode(Game game) {
 		this.getContentPane().removeAll();
 		gameView = new GameView(this, game);
 		this.getContentPane().add(gameView);
-		// setNormalModeKeyListener();
 		revalidate();
 		repaint();
 		requestFocus();
 	}
 
 
+	
+	/** 
+	 * @param game
+	 */
 	public void setChallengeMode(Game game) {
 		this.getContentPane().removeAll();		
 		gameView = new GameView(this, game);
 		this.getContentPane().add(gameView);
-		// setNormalModeKeyListener();
 		revalidate();
 		repaint();
 		requestFocus();
 	}
-
+	
+	/**
+	* Sets the key listener for normal mode. This listener handles user input during the game, such as
+	* typing letters, deleting characters, and validating words.
+	*/
 	public void setNormalModeKeyListener() {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
@@ -120,8 +129,7 @@ public final class Window extends JFrame {
 				super.keyPressed(e);
 				if(!isMode("NORMAL") && !isMode("GAME"))
 					return;
-				// On lance le timer si besoin
-			
+		
 				if(!gameView.isRunning())
 					gameView.startTimer();
 			
@@ -129,25 +137,18 @@ public final class Window extends JFrame {
 				Player player = gameView.getActualPlayer();
 				switch(e.getKeyChar()) {
 					case KeyEvent.VK_SPACE:
-						// ICI: - on vérifie si le mot est bien tapé (pas besoin car déjà fait dans Word.WordStats)
-						// - Si oui on récupère la liste des caractères utiles de ce mot
-						// - Enfin, on ajoute cette liste à celle dans Player: player.addGoodChars(<maliste>)
 						player.concatToGoodChars(actualWord.getWordStats().getGoodChars());
-						// On valide le mot actuel.
 						actualWord.validate();
 						wordsFullyvalidated(actualWord); 
 						player.updateLife(actualWord.getWordStats().nbErrors(), false);
 						gameView.getInfosBox().setLifes(player.getLifes());
 						gameView.getInfosBox().setLevel(gameView.getGame().getLevel());
-						// Utils.log("Player lifes: "+ player.getLifes());
-						// Utils.log("Erros:"+actualWord.getWordStats().nbErrors());
-						// On passe au suivant et on modifie les stats
+
 						gameView.nextWord();
-						// Si besoin, on retire un certain nombre de mots déjà écrit pour laisser plus de place dans la zone de texte
 						gameView.removeUselessWords();
 						break;
 					case KeyEvent.VK_BACK_SPACE:
-						actualWord.erasedActualChar(); // Important de le faire avant le removeLetter()
+						actualWord.erasedActualChar(); 
 						actualWord.removeLetter();
 						break;
 					default:
@@ -155,24 +156,24 @@ public final class Window extends JFrame {
 							actualWord.pushLetter(e.getKeyChar());
 							
 							actualWord.setTimeActualChar(gameView.getTime());
-							// Pour moi, on ne doit compter que les lettres ?
-							player.keyPressed(); // On augmente le compteur de touches
+							
+							player.keyPressed(); 
 						}
 						break;
 				}
 				
-				// PEUT ETRE ICI :
-				// wordView.set...
-
-				// Pour une raison obscure, on doit rafraichir deux fois l'affichage
-				// pour que le texte se mette à jour...
 				for(int i=0;i<2;i++) {
 					gameView.getTextArea().revalidate();
 					revalidate();
 					repaint();
 				}
 			}
-
+		/**
+		 * This method is called when a word has been fully validated. It increments the score, updates the
+		 * level if necessary, and increases the player's life if the word was special.
+		 *
+		 * @param actualWord the word that was fully validated
+		 */
 			private void wordsFullyvalidated(WordView actualWord) {
 				if (actualWord.getWordStats().nbGoodChars() == actualWord.getWordStats().getWordSize()) {
 					gameView.getInfosBox().addWord();
@@ -212,6 +213,11 @@ public final class Window extends JFrame {
 		System.exit(0);
 	}
 
+	
+	/** 
+	 * @param size
+	 * @return Font
+	 */
 	public static Font getNewFont(int size) {
 		float f = (float)size;
 		try {
@@ -225,6 +231,13 @@ public final class Window extends JFrame {
 		} 
 	}
 
+	
+	/** 
+	 * @param text
+	 * @param size
+	 * @param color
+	 * @return JLabel
+	 */
 	public static JLabel getJLabel(String text, int size, Color color) {
 		JLabel label = new JLabel(text);
 		label.setFont(getNewFont(size));
@@ -232,6 +245,13 @@ public final class Window extends JFrame {
 		return label;
 	}
 
+	
+	/** 
+	 * @param border
+	 * @param layout
+	 * @param panelsToAdd
+	 * @return JPanel
+	 */
 	public static JPanel getPanel(int border, LayoutManager layout, Component... panelsToAdd) {
 		JPanel pan = new JPanel();
 		pan.setOpaque(false);

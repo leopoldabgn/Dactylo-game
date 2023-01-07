@@ -1,4 +1,4 @@
-package view;
+ package view;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -27,12 +27,19 @@ import model.Player;
 import model.Word;
 import model.WordQueue;
 
+/**
+
+GameView is a JPanel that represents the view of a game. It displays the current game mode, player name,
+game timer, and a queue of words that the player needs to type. It also displays the player's current
+typing speed and accuracy.
+
+*/
+
 public final class GameView extends JPanel implements ActionListener {
 
     private Window win;
     private Game game;
     private Timer timer;
-    // north panel
     private JLabel gameMode, playerName;
     private InfosBox infosBox;
 
@@ -125,7 +132,6 @@ public final class GameView extends JPanel implements ActionListener {
             }
             if(actualWord == null)
                 return null;
-            game.nextWord();
             return actualWord;
         }
 
@@ -139,7 +145,6 @@ public final class GameView extends JPanel implements ActionListener {
             this.add(newWordView);
             if(actualWord == null)
                 return null;
-            game.nextWord();
             return actualWord;
         }
 
@@ -168,6 +173,10 @@ public final class GameView extends JPanel implements ActionListener {
 
     }
 
+    
+    /** 
+     * @return JPanel
+     */
     private JPanel getNorthPan() {
         JPanel north = new JPanel();
         north.setOpaque(false);
@@ -190,6 +199,10 @@ public final class GameView extends JPanel implements ActionListener {
         return north;
     }
 
+    
+    /** 
+     * @return JPanel
+     */
     private JPanel getSouthPan() {
         JPanel south = new JPanel();
         south.setOpaque(false);
@@ -213,6 +226,10 @@ public final class GameView extends JPanel implements ActionListener {
         return game;
     }
 
+    
+    /** 
+     * @return WordView
+     */
     public WordView getActualWord() {
         return textArea.getActualWord();
     }
@@ -224,6 +241,10 @@ public final class GameView extends JPanel implements ActionListener {
             textArea.removeUselessWords();
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isRunning() {
         return timer.isRunning();
     }
@@ -237,6 +258,10 @@ public final class GameView extends JPanel implements ActionListener {
         timer.stop();
     }
 
+    
+    /** 
+     * @param actionEvent
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         infosBox.refreshTimeLeft();
@@ -290,18 +315,34 @@ public final class GameView extends JPanel implements ActionListener {
         
     }
 
+    
+    /** 
+     * @return long
+     */
     public long getTime() {
         return game.getInfos().getTime();
     }
 
+    
+    /** 
+     * @return InfosBox
+     */
     public InfosBox getInfosBox() {
         return infosBox;
     }
 
+    
+    /** 
+     * @return Player
+     */
     public Player getActualPlayer() {
         return game.getActualPlayer();
     }
 
+    
+    /** 
+     * @return JPanel
+     */
     public JPanel getTextArea() {
         return textArea;
     }

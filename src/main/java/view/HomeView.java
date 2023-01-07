@@ -6,6 +6,11 @@ import javax.swing.border.EmptyBorder;
 import controllers.HomeController;
 import java.awt.*;
 
+/**
+The HomeView class represents the view for the home screen of the game. It allows the player to input their name and choose between
+normal or challenge mode, and then start the game.
+*/
+
 public final class HomeView extends JPanel{
   // Panel layout
   private BorderLayout viewLayout = new BorderLayout();
@@ -218,4 +223,3 @@ public final class HomeView extends JPanel{
     return button;
   }
 }
-// [TODO]: reduce distances between components inside box + look into margins

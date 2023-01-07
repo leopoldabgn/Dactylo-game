@@ -1,7 +1,11 @@
 package model;
 
 import model.Game.GameType;
-
+/**
+ * A class representing information about a game, such as the number of words typed, the duration of the game,
+ * and the number of lives remaining.
+ *
+ */
 public final class Infos implements Cloneable {
     
     private int nbWords, nbCorrectWords; // Le nombre de mots tapés

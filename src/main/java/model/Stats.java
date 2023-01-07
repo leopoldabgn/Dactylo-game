@@ -19,7 +19,13 @@ public final class Stats {
   private double words_per_minute;
   private double precision;
   private double frequency;
-
+  /** 
+   * Private constructor for Stats class.
+   *
+   * @param wpm Words per minute statistic
+   * @param precision Precision statistic
+   * @param frequency Frequency statistic
+   */
   private Stats(double wpm, double precision, double frequency) {
     this.words_per_minute = wpm;
     this.precision = precision;
@@ -27,11 +33,13 @@ public final class Stats {
   }
 
   
-  /** 
-   * @param game
-   * @param player
-   * @return Stats
-   */
+/**
+ * Static factory method for creating an instance of Stats.
+ *
+ * @param game The game the player participated in
+ * @param player The player whose statistics are being computed
+ * @return Stats object containing the player's statistics for the game
+ */
   public static Stats createStats(Game game, Player player) {
     return new Stats(computeWPM(game, player), computePrecision(game, player), computeFrequency(game, player));
   }

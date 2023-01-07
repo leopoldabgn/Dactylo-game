@@ -10,7 +10,10 @@ import model.Player;
 import model.Game.GameType;
 import utils.Utils;
 import view.Window;
-
+/**
+The HomeController class is a final class that contains methods to update the GUI and 
+retrieve the game type selected by the user.
+*/
 public final class HomeController {
 
   /**

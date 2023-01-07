@@ -1,7 +1,15 @@
 package model;
 
 import java.util.ArrayList;
-
+/**
+ * Represents a game in the game application.
+ * This is an abstract class that serves as a base for different types of games, such as
+ * normal, challenge, and multiplayer.
+ *
+ * @see NormalGame
+ * @see ChallengeGame
+ * @see MultiplayerGame
+ */
 public abstract sealed class Game permits NormalGame, ChallengeGame, MultiplayerGame {
   private WordQueue wordQueue;
   private Word actualWord;
@@ -28,12 +36,13 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
   public abstract void init();
 
   /**
-   * @param pathToData
-   * @param players
-   * @param type
+   * Constructs a new game with the specified data file path, list of players, and type.
+   *
+   * @param pathToData the path to the data file for this game
+   * @param players the list of players participating in this game
+   * @param type the type of game (normal, challenge, or multiplayer)
    */
   public Game(String pathToData, ArrayList<Player> players, GameType type) {
-    // this.pathToData = pathToData;
     boolean add_special = (type == GameType.CHALLENGE )? true : false;
     this.wordQueue = new WordQueue(pathToData, add_special);
     deepCopy(players);
@@ -41,7 +50,7 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     this.infos = Infos.empty();
     this.type = type;
     this.gameId = Game.gameCounter++;
-    this.actualPlayer = players.get(0); // Par défault c'est le premier joueur de la liste.
+    this.actualPlayer = players.get(0); 
     for(Player p : players) {
       p.setCurrentGame(this);
     }
@@ -108,33 +117,31 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
   }
 
 
+  /** 
+   * @return int
+   */
   public int getLevel() {
     return level;
   }
 
+  
+  /** 
+   * @param level
+   */
   public void setLevel(int level) {
     this.level = level;
   }
 
   public void updateLevel() {
     // Utils.log(""+this.infos.getWordLevelRef());
-    if(this.infos.getWordLevelRef() == 5) { // TODO: ATTENTION: changer cette valeur en "100"
+    if(this.infos.getWordLevelRef() == 100) {
       this.level += 1;
       // this.infos.setLevel(this.level);
       // Utils.log("Update level: "+this.level);
     }
   }
 
-  // public void reset() {
-  //   // [TODO]: reset player stats - wait for leo merge
-  //   for (Player player : this.getPlayers()) {
-  //     player.updatePlayerStats();
-  //   }
-  //   // [TODO]: reset game meta data
-  //   this.wordQueue = new WordQueue(this.pathToData);
-  //   this.infos = Infos.empty();
-  // }
-
+  
   /** 
    * @return String
    */
@@ -142,10 +149,18 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     return String.format("\u001b[32mGame id:\u001b[0m %d - \u001b[34mGame Mode:\u001b[0m %s - \u001b[31mPlayers:\u001b[0m %s",this.getGameId(),  this.getType(), this.getPlayers());
   }
 
+  
+  /** 
+   * @return Player
+   */
   public Player getActualPlayer() {
     return actualPlayer;
   }
 
+  
+  /** 
+   * @return Infos
+   */
   public Infos getInfos() {
     return infos;
   }

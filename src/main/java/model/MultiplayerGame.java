@@ -10,7 +10,6 @@ public final class MultiplayerGame extends Game {
 
     @Override
     public void init() {
-        // TODO
     }
 
 }

@@ -5,6 +5,11 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 public final class WhiteBox extends JPanel {
 
+  /**
+ * This class represents a white box that can be used as a container for other components. It has a
+ * transparent background and a white border with rounded corners.
+ */
+
   public WhiteBox() {
       setOpaque(false);
       setBorder(new EmptyBorder(10, 15, 10, 15));
