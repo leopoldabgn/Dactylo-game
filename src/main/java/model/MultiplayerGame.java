@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public final class MultiplayerGame extends Game {
 
-    public MultiplayerGame(String pathToData, ArrayList<Player> players) {
-        super(pathToData, players, GameType.MP);
+    public MultiplayerGame(ArrayList<Player> players) {
+        super(players, GameType.MP);
     }
 
     @Override

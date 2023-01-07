@@ -19,7 +19,7 @@ public final class StatController {
     ArrayList<Player> players = game.getPlayers();
     players.stream().forEach(player -> player.resetPlayerData());
     GameType gt = game.getType();
-    Game new_game = GameFactory.getGame(gt, "src/main/resources/sample.txt", players);
+    Game new_game = GameFactory.getGame(gt, players);
     win.setGameView(new_game);
     
     // Utils.log("Play Pressed!");

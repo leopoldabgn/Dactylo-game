@@ -42,9 +42,12 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
    * @param players the list of players participating in this game
    * @param type the type of game (normal, challenge, or multiplayer)
    */
-  public Game(String pathToData, ArrayList<Player> players, GameType type) {
-    boolean add_special = (type == GameType.CHALLENGE )? true : false;
-    this.wordQueue = new WordQueue(pathToData, add_special);
+  public Game(ArrayList<Player> players, GameType type) {
+    // this.pathToData = pathToData;
+    if(type == GameType.CHALLENGE)
+      wordQueue = WordQueue.challengeQueue();
+    else
+      wordQueue = WordQueue.normalQueue();
     deepCopy(players);
     actualWord = wordQueue.getQueue().peek();
     this.infos = Infos.empty();
@@ -133,15 +136,10 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
   }
 
   public void updateLevel() {
-    // Utils.log(""+this.infos.getWordLevelRef());
-    if(this.infos.getWordLevelRef() == 100) {
+    if(this.infos.getWordLevelRef() == 100)
       this.level += 1;
-      // this.infos.setLevel(this.level);
-      // Utils.log("Update level: "+this.level);
-    }
   }
 
-  
   /** 
    * @return String
    */

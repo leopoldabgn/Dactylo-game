@@ -31,7 +31,7 @@ public final class HomeController {
     ArrayList<Player> players = new ArrayList<>();
     players.add(player);
 
-    Game game = GameFactory.getGame(gameType, "src/main/resources/sample.txt", players);
+    Game game = GameFactory.getGame(gameType, players);
     win.setGameView(game);
     Utils.log("Game Info : "+ game.toString());
   }

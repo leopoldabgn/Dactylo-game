@@ -6,7 +6,7 @@ public class WordQueueTest {
   @Test
   public void checkWordQueue() {
     // 1. Constructor 
-    WordQueue wq = new WordQueue("src/test/resources/sample.txt", true);
+    WordQueue wq = WordQueue.normalQueue();
     // 2. check if queue started
     assertThat(wq.getQueue().size()).isEqualTo(50/3);
     // 3. poll - check if size changes

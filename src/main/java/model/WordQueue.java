@@ -20,18 +20,34 @@ public final class WordQueue {
     private int MAX_SIZE = 50;
     private boolean add_special = false;
     
+    private static String[] texts = new String[] {
+        "src/main/resources/sample.txt",
+        "src/main/resources/fr.txt"
+    };
+    
+    private WordQueue(boolean add_special) {
+        this((int)(Math.random() * texts.length), add_special);
+    }
     /**
      * Constructs a new WordQueue.
      *
-     * @param dataPath the path to the file to be used as the data source for the queue
+     * @param data ref
      * @param add_special a boolean indicating whether special words should be added to the queue
      */
-    public WordQueue(String dataPath, boolean add_special) {
-        this.dataSource = (Iterator<String>) createIterable(dataPath);
+    private WordQueue(int data, boolean add_special) {
+        this.dataSource = (Iterator<String>) createIterable(texts[data]);
         this.add_special = add_special;
         startQueue();
     }
+
+    public static WordQueue normalQueue() {
+        return new WordQueue(false);
+    }
     
+    public static WordQueue challengeQueue() {
+        return new WordQueue(true);
+    }
+
     /**
     * A private method that initializes the queue by adding a set number of items to it. 
     * @param None.
@@ -54,7 +70,7 @@ public final class WordQueue {
         try {
             List<String> fileContent = Files.readAllLines(Paths.get(dataPath));
             List<String> temp = new ArrayList<>();
-            fileContent.stream().forEach(x -> Arrays.asList(x.split(" ")).forEach(y -> temp.add(deleteChars(y, ";.,?:!"))));
+            fileContent.stream().forEach(x -> Arrays.asList(x.split(" ")).forEach(y -> temp.add(deleteChars(y, ";.,?:!\"’'«»123456789ÇÀÉÈ"))));
             return temp.iterator();
         } catch (IOException e) {
             e.printStackTrace();
@@ -134,13 +150,5 @@ public final class WordQueue {
         }
         return res;
     }
-    
-    // public static void main(String[] args) {
-    //     String pathToFile = "src/main/resources/sample.txt";
-    //     WordQueue wq = new WordQueue(pathToFile, false);
-    //     // System.out.println("\nQueue: "+wq+"\n");
-    //     wq.poll();
-    //     // System.out.println("Queue: "+wq+"\n");
-    // }
 
 } 

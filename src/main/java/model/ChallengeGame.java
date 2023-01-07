@@ -13,11 +13,10 @@ public final class ChallengeGame extends Game {
     /**
      * Constructs a new Challenge game with the specified data file path and list of players.
      *
-     * @param pathToData the path to the data file for this game
      * @param players the list of players participating in this game
-     */
-    public ChallengeGame(String pathToData, ArrayList<Player> players) {
-        super(pathToData, players, GameType.CHALLENGE);
+    */
+    public ChallengeGame(ArrayList<Player> players) {
+        super(players, GameType.CHALLENGE);
         init();
     }
 

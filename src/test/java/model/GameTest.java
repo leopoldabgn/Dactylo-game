@@ -12,7 +12,7 @@ public class GameTest {
     Player player = new Player("Rick", 0);
     ArrayList<Player> players = new ArrayList<>();
     players.add(player);
-    Game game = GameFactory.getGame(GameType.CHALLENGE, "src/test/resources/sample.txt", players);
+    Game game = GameFactory.getGame(GameType.CHALLENGE, players);
     
     // Test game player
     assertThat(game.getActualPlayer().getName()).isEqualTo("Rick");

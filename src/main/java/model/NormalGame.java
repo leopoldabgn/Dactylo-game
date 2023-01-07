@@ -12,9 +12,9 @@ public final class NormalGame extends Game {
    *
    * @param pathToData the path to the data file for this game
    * @param players the list of players participating in this game
-   */
-  public NormalGame(String pathToData, ArrayList<Player> players) {
-    super(pathToData, players, GameType.NORMAL);
+  */
+  public NormalGame(ArrayList<Player> players) {
+    super(players, GameType.NORMAL);
     init();
     
   }
