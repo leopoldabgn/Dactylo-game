@@ -19,7 +19,6 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
   private GameType type;
   private static int gameCounter = 0;
   private final int gameId;
-  private int level = 1;
   // private String pathToData;
 
   public enum GameType {
@@ -119,25 +118,13 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     return gameId;
   }
 
-
-  /** 
-   * @return int
-   */
   public int getLevel() {
-    return level;
-  }
-
-  
-  /** 
-   * @param level
-   */
-  public void setLevel(int level) {
-    this.level = level;
+    return infos.getLevel();
   }
 
   public void updateLevel() {
-    if(this.infos.getWordLevelRef() == 100)
-      this.level += 1;
+    if(infos.getWordLevelRef() == Infos.getMaxWordsBeforeNextLevel())
+      infos.setLevel(infos.getLevel()+1);
   }
 
   /** 

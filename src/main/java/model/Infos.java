@@ -8,6 +8,8 @@ import model.Game.GameType;
  */
 public final class Infos implements Cloneable {
     
+    private static int MAX_WORDS_BEFORE_NEXT_LEVEL = 100;
+
     private int nbWords, nbCorrectWords; // Le nombre de mots tapés
     private long startTime = -1, duration = -1, endTime = -1; // Le temps en millisecondes
     private int lifes;
@@ -86,10 +88,7 @@ public final class Infos implements Cloneable {
     }
 
     public void setEndTime() {
-        if(getTimeLeft() == -1)
-            this.endTime = getTime();
-        else
-            this.endTime = duration - getTimeLeft();
+        this.endTime = System.currentTimeMillis();
     }
 
 
@@ -102,7 +101,7 @@ public final class Infos implements Cloneable {
     }
 
     public void updateWordLevelRef() {
-        wordLevelRef = wordLevelRef >= 100 ? 0 : wordLevelRef+1;
+        wordLevelRef = wordLevelRef >= MAX_WORDS_BEFORE_NEXT_LEVEL ? 0 : wordLevelRef+1;
     }
     
     /** 
@@ -135,7 +134,7 @@ public final class Infos implements Cloneable {
     public long getTime() {
         if(endTime == -1) // Le chrono tourne toujours
             return System.currentTimeMillis() - startTime;
-        return endTime; // Si chrono arrêté, alors time = endTime;
+        return endTime - startTime; // Si chrono arrêté
     }
 
     
@@ -190,6 +189,10 @@ public final class Infos implements Cloneable {
      */
     public Infos clone() {
         return new Infos(nbWords, nbCorrectWords, duration, lifes, type);
+    }
+
+    public static int getMaxWordsBeforeNextLevel() {
+        return MAX_WORDS_BEFORE_NEXT_LEVEL;
     }
 
 }

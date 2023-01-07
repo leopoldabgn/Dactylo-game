@@ -267,10 +267,10 @@ public final class GameView extends JPanel implements ActionListener {
         infosBox.refreshTimeLeft();
         if(this.game.getType() == GameType.CHALLENGE) {
             if(this.game.getActualPlayer().getLifes() <= 0) {
-                game.getActualPlayer().updatePlayerStats();
-                win.setStatsView(game);
                 game.getInfos().setEndTime();
                 timer.stop();
+                game.getActualPlayer().updatePlayerStats();
+                win.setStatsView(game);
                 return;
             }
             else {
