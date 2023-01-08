@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import controllers.StatController;
+import controllers.StatsController;
 import model.Game;
 import model.Player;
 
@@ -17,7 +17,7 @@ import model.Player;
 public final class StatsView extends JPanel {
     private Window window;
     private Game game;
-    private StatController statController = new StatController();
+    private StatsController statsController = new StatsController();
 
     public StatsView(Window win, Game game) {
         this.window = win;
@@ -153,10 +153,10 @@ public final class StatsView extends JPanel {
       panel.setLayout(gl);
 
       JButton playAgain = createButton("Play Again");
-      playAgain.addActionListener((event) -> this.statController.playPressed(this.window, this.game));
+      playAgain.addActionListener((event) -> this.statsController.playPressed(this.window, this.game));
 
       JButton menuButton = createButton("Menu");
-      menuButton.addActionListener((event) -> this.statController.menuPressed(this.window, this.game));
+      menuButton.addActionListener((event) -> this.statsController.menuPressed(this.window, this.game));
 
       panel.add(playAgain);
       panel.add(menuButton);

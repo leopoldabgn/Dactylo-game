@@ -1,3 +1,2 @@
 #!/bin/bash
-mvn package
-java -jar target/dactylo-game*.jar
+java -jar dactylo-game*.jar

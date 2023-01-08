@@ -10,11 +10,11 @@ import utils.Utils;
 import view.Window;
 
 /**
-The StatController class is a final class that contains methods to
+The StatsController class is a final class that contains methods to
 reset the game data and return to the home screen.
 */
 
-public final class StatController {
+public final class StatsController {
   public void playPressed(Window win, Game game) {
     ArrayList<Player> players = game.getPlayers();
     players.stream().forEach(player -> player.resetPlayerData());
