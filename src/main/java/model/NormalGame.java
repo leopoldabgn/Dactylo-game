@@ -15,6 +15,8 @@ public final class NormalGame extends Game {
   */
   public NormalGame(ArrayList<Player> players) {
     super(players, GameType.NORMAL);
+    this.setWordQueue(WordQueue.normalQueue());
+    setActualWord(getWordQueue().getQueue().peek());
     init();
     
   }

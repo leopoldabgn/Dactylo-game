@@ -17,6 +17,8 @@ public final class ChallengeGame extends Game {
     */
     public ChallengeGame(ArrayList<Player> players) {
         super(players, GameType.CHALLENGE);
+        this.setWordQueue(WordQueue.challengeQueue());
+        setActualWord(getWordQueue().getQueue().peek());
         init();
     }
 

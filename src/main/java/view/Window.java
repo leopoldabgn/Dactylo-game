@@ -18,9 +18,11 @@ import javax.swing.border.EmptyBorder;
 
 import model.ChallengeGame;
 import model.Game;
+import model.Infos;
 import model.MultiplayerGame;
 import model.NormalGame;
 import model.Player;
+import model.Word.WordStats;
 
 
 /**
@@ -48,7 +50,7 @@ public final class Window extends JFrame {
 		((JPanel)getContentPane()).setBorder(new EmptyBorder(padding, padding, padding, padding));
 		getContentPane().setBackground(HomeView.backgroundColor);
 		setHomeView();
-		setNormalModeKeyListener();
+		setModeKeyListener();
 
 		this.setVisible(true);
 	}
@@ -122,12 +124,12 @@ public final class Window extends JFrame {
 	* Sets the key listener for normal mode. This listener handles user input during the game, such as
 	* typing letters, deleting characters, and validating words.
 	*/
-	public void setNormalModeKeyListener() {
+	public void setModeKeyListener() {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				super.keyPressed(e);
-				if(!isMode("NORMAL") && !isMode("GAME"))
+				if(!isMode("NORMAL") && !isMode("CHALLENGE"))
 					return;
 		
 				if(!gameView.isRunning())
@@ -135,14 +137,16 @@ public final class Window extends JFrame {
 			
 				WordView actualWord = gameView.getActualWord();
 				Player player = gameView.getActualPlayer();
+				Infos infos = gameView.getGame().getInfos();
+				WordStats wordStats = actualWord.getWordStats();
 				switch(e.getKeyChar()) {
 					case KeyEvent.VK_SPACE:
-						player.concatToGoodChars(actualWord.getWordStats().getGoodChars());
+						player.concatToGoodChars(wordStats.getGoodChars());
 						actualWord.validate();
 						wordsFullyvalidated(actualWord); 
-						player.updateLife(actualWord.getWordStats().nbErrors(), false);
+						player.updateLife(wordStats.nbErrors(), false);
 						gameView.getInfosBox().setLifes(player.getLifes());
-						gameView.getInfosBox().setLevel(gameView.getGame().getLevel());
+						gameView.getInfosBox().setLevel(infos.getLevel());
 
 						gameView.nextWord();
 						gameView.removeUselessWords();
@@ -177,7 +181,7 @@ public final class Window extends JFrame {
 			private void wordsFullyvalidated(WordView actualWord) {
 				if (actualWord.getWordStats().nbGoodChars() == actualWord.getWordStats().getWordSize()) {
 					gameView.getInfosBox().addWord();
-					gameView.getGame().updateLevel();
+					gameView.getGame().getInfos().updateLevel();
 					if(actualWord.getWord().isSpecial()) {
 						gameView.getGame().getActualPlayer().updateLife(actualWord.getWord().getWordStats().getWordSize(), true);
 					}
@@ -199,7 +203,7 @@ public final class Window extends JFrame {
 		switch(mode.toUpperCase()) {
 			case "NORMAL":
 				return game instanceof NormalGame;
-			case "GAME":
+			case "CHALLENGE":
 				return game instanceof ChallengeGame;
 			case "MULTIPLAYER":
 				return game instanceof MultiplayerGame;

@@ -17,7 +17,7 @@ public class GameTest {
     // Test game player
     assertThat(game.getActualPlayer().getName()).isEqualTo("Rick");
     // Test game level
-    assertThat(game.getLevel()).isEqualTo(1);
+    assertThat(game.getInfos().getLevel()).isEqualTo(1);
     // Test game type
     assertThat(game.getType()).isEqualTo(GameType.CHALLENGE);
   }

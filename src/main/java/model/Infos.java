@@ -127,6 +127,10 @@ public final class Infos implements Cloneable {
         this.level = level;
     }
 
+  public void updateLevel() {
+    if(wordLevelRef == MAX_WORDS_BEFORE_NEXT_LEVEL)
+      this.level++;
+  }
     
     /** 
      * @return long
@@ -191,6 +195,10 @@ public final class Infos implements Cloneable {
         return new Infos(nbWords, nbCorrectWords, duration, lifes, type);
     }
 
+    
+    /** 
+     * @return int
+     */
     public static int getMaxWordsBeforeNextLevel() {
         return MAX_WORDS_BEFORE_NEXT_LEVEL;
     }

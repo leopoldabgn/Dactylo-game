@@ -43,12 +43,7 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
    */
   public Game(ArrayList<Player> players, GameType type) {
     // this.pathToData = pathToData;
-    if(type == GameType.CHALLENGE)
-      wordQueue = WordQueue.challengeQueue();
-    else
-      wordQueue = WordQueue.normalQueue();
     deepCopy(players);
-    actualWord = wordQueue.getQueue().peek();
     this.infos = Infos.empty();
     this.type = type;
     this.gameId = Game.gameCounter++;
@@ -118,15 +113,6 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
     return gameId;
   }
 
-  public int getLevel() {
-    return infos.getLevel();
-  }
-
-  public void updateLevel() {
-    if(infos.getWordLevelRef() == Infos.getMaxWordsBeforeNextLevel())
-      infos.setLevel(infos.getLevel()+1);
-  }
-
   /** 
    * @return String
    */
@@ -148,6 +134,31 @@ public abstract sealed class Game permits NormalGame, ChallengeGame, Multiplayer
    */
   public Infos getInfos() {
     return infos;
+  }
+
+  
+  /** 
+   * @param queue
+   */
+  public void setWordQueue(WordQueue queue) {
+    this.wordQueue = queue;
+  }
+
+  
+  /** 
+   * @param queue
+   * @return WordQueue
+   */
+  public WordQueue getWordQueue(WordQueue queue) {
+    return this.wordQueue;
+  }
+
+  
+  /** 
+   * @param word
+   */
+  public void setActualWord(Word word) {
+    this.actualWord = word;
   }
 
 }

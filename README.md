@@ -388,5 +388,6 @@ Une attention particulière a été donné pour appliquer les notions vu pendant
 - **Immuabilité**: Nous avons essayé de respecté l'immuabilité et l'encapsulation le plus possible (même si ça n'est pas parfait). Par exemple, l'interface **Cloneable** a été implémenté dans plusieurs classe afin de pouvoir cloner facilement les objets.
 - **Expressions lambda**: Les expressions lambda ont été utilisé le plus possible pour rendre notre code plus lisible.
 - **Stream**: Nous avons également essayé d'utiliser les Stream le plus possible pour simplifier notre code.
+- **Enum**: Une énumération a été utilisé dans la classe interne **GameType** de **Game**. Elle permet de définir le type d'une partie (**Challenge**, **MP**...)
 
 Cependant, nous n'avons malheureusement pas eu le temps d'implémenter le mode **Multiplayer**. C'est pourquoi, la partie du cours sur les **Thread** n'a pas pu être utilisé dans notre projet.
